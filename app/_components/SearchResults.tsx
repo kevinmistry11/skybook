@@ -1,11 +1,13 @@
 'use client'
 
 import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   generateFlights, formatTime, formatDate, formatDuration, formatTZAbbr, formatPrice,
   getPriceForClass, fareName, AIRPORTS, AIRLINES, AIRPORT_TZ,
   type Flight, type MultiCityLeg,
 } from '@/lib/data'
+import { setPendingBooking } from '@/lib/store'
 
 interface Props {
   from: string; to: string; date: string; returnDate?: string
@@ -74,6 +76,7 @@ async function fetchFlights(
 // ── Main component ─────────────────────────────────────────────────────────
 
 export default function SearchResults({ from, to, date, returnDate, passengers, cabinClass, tripType, legs }: Props) {
+  const router = useRouter()
 
   const [outboundFlights,  setOutboundFlights]  = useState<Flight[]>([])
   const [returnFlights,    setReturnFlights]     = useState<Flight[]>([])
@@ -176,21 +179,15 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
     <div className="text-center py-20 text-gray-400">Select at least two cities above to find flights.</div>
   )
 
-  function kayakCabin() {
-    if (cabinClass === 'business') return '&cabin=b'
-    if (cabinClass === 'first')    return '&cabin=f'
-    return ''
-  }
-
-  function selectFlight(_outbound: Flight, _ret?: Flight) {
-    const pax = `${passengers}adults`
-    let url: string
-    if (tripType === 'roundTrip' && returnDate) {
-      url = `https://www.kayak.com/flights/${from}-${to}/${date}/${to}-${from}/${returnDate}/${pax}${kayakCabin()}`
-    } else {
-      url = `https://www.kayak.com/flights/${from}-${to}/${date}/${pax}${kayakCabin()}`
-    }
-    window.open(url, '_blank', 'noopener,noreferrer')
+  function selectFlight(outbound: Flight, ret?: Flight) {
+    const id = crypto.randomUUID()
+    setPendingBooking({
+      id,
+      outboundFlight: outbound,
+      returnFlight: ret,
+      searchParams: { from, to, date, returnDate, passengers, cabinClass, tripType },
+    })
+    router.push(`/booking/${id}`)
   }
 
   function selectMcFlight(flight: Flight) {
@@ -199,9 +196,17 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
       setMcSelected(newSelected)
       setMcCurrentLeg(mcCurrentLeg + 1)
     } else {
-      const legParts = legs!.map(l => `${l.from}-${l.to}/${l.date}`).join('/')
-      const url = `https://www.kayak.com/flights/multicity/${legParts}/${passengers}adults${kayakCabin()}`
-      window.open(url, '_blank', 'noopener,noreferrer')
+      const id = crypto.randomUUID()
+      setPendingBooking({
+        id,
+        outboundFlight: newSelected[0],
+        multiCityFlights: newSelected,
+        searchParams: {
+          from: legs![0].from, to: legs![legs!.length - 1].to,
+          date: legs![0].date, passengers, cabinClass, tripType: 'multicity', legs,
+        },
+      })
+      router.push(`/booking/${id}`)
     }
   }
 
