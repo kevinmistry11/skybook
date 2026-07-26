@@ -80,19 +80,21 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
   const { cabinClass, passengers: passengerCount } = searchParams
   const isMultiCity = searchParams.tripType === 'multicity' && !!multiCityFlights
 
-  // Normalize so economy checkout is ~$400 × passengers (+ seat add-ons); business/first scale up
-  const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
-    passengers: passengerCount,
-    cabinClass,
-    seatAddonCost,
-  })
-
   // Split base fare across legs for display so order summary lines add up to the target total
   const displayLegs: Flight[] = isMultiCity
     ? multiCityFlights!
     : returnFlight
       ? [flight, returnFlight]
       : [flight]
+
+  // ~$410.80-ish with cents, varies slightly by itinerary (not a flat $400.00)
+  const priceSeed = displayLegs.map(f => f.id).join('|')
+  const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
+    passengers: passengerCount,
+    cabinClass,
+    seatAddonCost,
+    seed: priceSeed,
+  })
   const rawLegPrices = displayLegs.map(f => getPriceForClass(f, cabinClass))
   const rawLegSum = rawLegPrices.reduce((s, p) => s + p, 0) || 1
   const displayLegPrices = rawLegPrices.map((p, i) => {
