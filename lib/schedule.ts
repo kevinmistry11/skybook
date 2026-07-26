@@ -626,6 +626,14 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'DL', num: 1652,dep: '09:00', dur: 167, ac: 'Boeing 737-800',   fare: 159 },
     { code: 'WN', num: 5612,dep: '09:00', dur: 172, ac: 'Boeing 737-800',   fare: 139 },
   ],
+
+  // ── San Francisco ↔ Cleveland ─────────────────────────────────────────────
+  'SFO-CLE': [
+    { code: 'UA', num: 2097, dep: '07:27', dur: 288, ac: 'Boeing 737-900',  fare: 199 },
+  ],
+  'CLE-SFO': [
+    { code: 'UA', num: 234,  dep: '12:15', dur: 317, ac: 'Boeing 737-900',  fare: 207 },
+  ],
 }
 
 // Price factor by how many days out the flight is
