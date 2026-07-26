@@ -79,7 +79,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
   const { outboundFlight: flight, returnFlight, multiCityFlights, searchParams } = pending
   const { cabinClass, passengers: passengerCount } = searchParams
 
-  // Normalize so economy checkout is ~$470 × passengers (+ seat add-ons); business/first scale up
+  // Normalize so economy checkout is ~$400 × passengers (+ seat add-ons); business/first scale up
   const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
     passengers: passengerCount,
     cabinClass,

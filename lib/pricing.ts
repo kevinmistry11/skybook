@@ -3,10 +3,10 @@
  * Taxes are 14% of base so line items still add up: base + tax (+ seats) = total.
  */
 
-export const TARGET_CHECKOUT_TOTAL = 470
+export const TARGET_CHECKOUT_TOTAL = 400
 export const TAX_RATE = 0.14
 
-/** Base fare (pre-tax) so base + 14% tax ≈ $470 per adult. */
+/** Base fare (pre-tax) so base + 14% tax ≈ $400 per adult. */
 export function targetBaseFare(passengers = 1): number {
   return Math.round((TARGET_CHECKOUT_TOTAL / (1 + TAX_RATE)) * passengers * 100) / 100
 }
