@@ -464,7 +464,7 @@ export function generateFlights(from: string, to: string, date: string): Flight[
         first:    { price: Math.round(economyPrice * 5.5 * 100) / 100,    seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.12)) },
       } as Flight
     })
-    // Band economy around target one-way base (checkout ~$410-ish with cents);
+    // Band economy around target one-way base (checkout ~$470-ish with cents);
     // SearchResults re-normalizes RT legs to half-share for a similar RT total.
     return normalizeFlightEconomyPrices(flights, 1)
       .sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime())

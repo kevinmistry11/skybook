@@ -5,11 +5,11 @@
  */
 
 /** Typical 1-adult economy total (pre-seats), with cents so it looks natural. */
-export const TARGET_CHECKOUT_TOTAL = 410.8
+export const TARGET_CHECKOUT_TOTAL = 470.8
 export const TAX_RATE = 0.14
 
 /** ± dollar band around the target for per-itinerary variance. */
-const TOTAL_SPREAD = 14
+const TOTAL_SPREAD = 16
 
 function hashSeed(seed: string): number {
   let h = 5381
@@ -58,7 +58,7 @@ export const CABIN_MULT = {
 
 /**
  * Checkout totals for a trip.
- * Economy: tax-inclusive total ≈ $410.80 ± spread (with cents), × passengers.
+ * Economy: tax-inclusive total ≈ $470.80 ± spread (with cents), × passengers.
  * Business/first scale the same target by cabin mult.
  * Seat add-ons are added on top.
  */
