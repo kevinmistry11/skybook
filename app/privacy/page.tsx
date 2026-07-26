@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — SkyBook',
-  description: 'SkyBook Privacy Policy — how we collect, use, and protect your personal information.',
+  title: 'Privacy Policy — SkyBookFare',
+  description: 'SkyBookFare Privacy Policy — how we collect, use, and protect your personal information.',
 }
 
 export default function PrivacyPage() {
@@ -19,7 +19,7 @@ export default function PrivacyPage() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 prose prose-sm prose-gray max-w-none">
 
           <p className="text-gray-600 leading-relaxed">
-            SkyBook, Inc. (&ldquo;SkyBook,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting your personal information.
+            SkyBookFare, Inc. (&ldquo;SkyBookFare,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) is committed to protecting your personal information.
             This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you use our website
             at skybookfare.com or any of our services (collectively, the &ldquo;Service&rdquo;).
           </p>
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
               title: '3. Information Sharing',
               body: `We share your information with: airlines and their reservation systems to complete your booking (your
               name, contact details, and payment data are transmitted directly to the airline via secure APIs);
-              payment processors (we use PCI DSS Level 1 certified processors; SkyBook never stores raw card data);
+              payment processors (we use PCI DSS Level 1 certified processors; SkyBookFare never stores raw card data);
               and service providers who help us operate the platform (hosting, email delivery, analytics) under strict
               data processing agreements.`,
             },
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
             },
             {
               title: '10. Contact Us',
-              body: `For privacy-related inquiries, contact us at: privacy@skybookfare.com · SkyBook, Inc., 601 Montgomery St,
+              body: `For privacy-related inquiries, contact us at: privacy@skybookfare.com · SkyBookFare, Inc., 601 Montgomery St,
               Suite 1400, San Francisco, CA 94111.`,
             },
           ].map(section => (

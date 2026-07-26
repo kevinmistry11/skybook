@@ -168,9 +168,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Why SkyBook ── */}
+      {/* ── Why SkyBookFare ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-3xl font-black text-gray-900 text-center mb-12">Why travelers choose SkyBook</h2>
+        <h2 className="text-3xl font-black text-gray-900 text-center mb-12">Why travelers choose SkyBookFare</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
             { gradient: 'from-violet-500 to-purple-600', icon: '💰', title: 'No Booking Fees', body: 'The price you see is the price you pay — taxes and carrier fees included. Always.' },
@@ -203,7 +203,7 @@ export default function Home() {
       {/* ── Testimonials ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-black text-gray-900 mb-2">Travelers love SkyBook</h2>
+          <h2 className="text-3xl font-black text-gray-900 mb-2">Travelers love SkyBookFare</h2>
           <div className="flex justify-center items-center gap-1 text-yellow-400 text-lg">★★★★★</div>
           <p className="text-gray-500 text-sm mt-1">4.8 out of 5 · 14,200+ reviews</p>
         </div>
@@ -236,7 +236,7 @@ export default function Home() {
             {
               name: 'Diane K.',   city: 'Seattle, WA',
               stars: 5,
-              text: 'I love that it shows the round-trip total upfront on the search results. Other sites make you click through to see the real price. SkyBook is honest.',
+              text: 'I love that it shows the round-trip total upfront on the search results. Other sites make you click through to see the real price. SkyBookFare is honest.',
               initials: 'DK', color: 'from-orange-500 to-amber-600',
             },
             {

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Baggage Policy — SkyBook',
+  title: 'Baggage Policy — SkyBookFare',
   description: 'Carry-on and checked bag rules for every major US airline, all in one place.',
 }
 
@@ -143,7 +143,7 @@ export default function BaggagePage() {
         </div>
 
         <p className="text-xs text-gray-400 text-center mt-8">
-          Baggage fees are set and collected by airlines, not SkyBook. Fees shown are estimates and subject to change.
+          Baggage fees are set and collected by airlines, not SkyBookFare. Fees shown are estimates and subject to change.
           Always confirm with your airline before travel.
         </p>
       </div>

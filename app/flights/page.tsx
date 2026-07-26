@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { AIRPORTS, type Airport } from '@/lib/data'
 
 export const metadata: Metadata = {
-  title: 'Popular US Domestic Flight Routes | SkyBook',
+  title: 'Popular US Domestic Flight Routes | SkyBookFare',
   description: 'Browse cheap flights on the most popular US domestic routes. Compare fares across all major airlines on routes like New York to LA, San Francisco to Nashville, and more.',
   alternates: { canonical: 'https://skybookfare.com/flights' },
 }
@@ -89,7 +89,7 @@ export default function FlightsIndexPage() {
         <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 prose prose-sm text-gray-600 max-w-none">
           <h2 className="text-xl font-bold text-gray-900 mt-0">Finding Cheap Domestic Flights</h2>
           <p>
-            SkyBook searches across all major US airlines — American Airlines, Delta, United, Southwest, JetBlue,
+            SkyBookFare searches across all major US airlines — American Airlines, Delta, United, Southwest, JetBlue,
             Alaska Airlines, Frontier, and Spirit — to find the lowest available fares on every route.
             There are no booking fees and no fare markups. The price you see is the price you pay.
           </p>
@@ -105,7 +105,7 @@ export default function FlightsIndexPage() {
             can often save $30–80 on a ticket.
           </p>
           <Link href="/" className="text-blue-600 font-semibold no-underline hover:underline">
-            Search all flights on SkyBook →
+            Search all flights on SkyBookFare →
           </Link>
         </div>
 

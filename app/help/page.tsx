@@ -8,13 +8,13 @@ const FAQS = [
     id: 'cancellation',
     category: 'Cancellations & Refunds',
     q: 'How do I cancel my booking?',
-    a: 'Log in to your account and go to "My Trips." Select the booking you want to cancel and click "Cancel Booking." Cancellation is subject to the fare rules of your ticket. Most economy fares on SkyBook are non-refundable, but may be eligible for a travel credit minus the change fee.',
+    a: 'Log in to your account and go to "My Trips." Select the booking you want to cancel and click "Cancel Booking." Cancellation is subject to the fare rules of your ticket. Most economy fares on SkyBookFare are non-refundable, but may be eligible for a travel credit minus the change fee.',
   },
   {
     id: 'refund',
     category: 'Cancellations & Refunds',
     q: 'When will I receive my refund?',
-    a: 'If your fare is eligible for a refund, it is typically processed within 7–10 business days back to your original payment method. Travel credits are applied to your SkyBook account immediately. Note that most economy fares are non-refundable — check your fare rules at checkout.',
+    a: 'If your fare is eligible for a refund, it is typically processed within 7–10 business days back to your original payment method. Travel credits are applied to your SkyBookFare account immediately. Note that most economy fares are non-refundable — check your fare rules at checkout.',
   },
   {
     id: 'change',
@@ -37,7 +37,7 @@ const FAQS = [
   {
     id: 'payment',
     category: 'Payment',
-    q: 'What payment methods does SkyBook accept?',
+    q: 'What payment methods does SkyBookFare accept?',
     a: 'We accept all major credit and debit cards (Visa, Mastercard, American Express, Discover), as well as Apple Pay and Google Pay on supported browsers. All transactions are secured with TLS 1.3 encryption and our payment infrastructure is PCI DSS Level 1 certified.',
   },
   {
@@ -50,7 +50,7 @@ const FAQS = [
     id: 'checkin',
     category: 'Booking',
     q: 'How do I check in for my flight?',
-    a: 'Check-in is done directly with the airline, not through SkyBook. Most airlines open online check-in 24 hours before departure. You can use your PNR (booking reference code) found in your confirmation email to check in on the airline\'s website or app.',
+    a: 'Check-in is done directly with the airline, not through SkyBookFare. Most airlines open online check-in 24 hours before departure. You can use your PNR (booking reference code) found in your confirmation email to check in on the airline\'s website or app.',
   },
 ]
 
@@ -64,7 +64,7 @@ export default function HelpPage() {
         <div className="text-center mb-12">
           <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-3">Help Center</p>
           <h1 className="text-4xl font-black text-gray-900 mb-3">How can we help?</h1>
-          <p className="text-gray-500">Answers to the most common questions about SkyBook.</p>
+          <p className="text-gray-500">Answers to the most common questions about SkyBookFare.</p>
         </div>
 
         {/* Quick contact bar */}

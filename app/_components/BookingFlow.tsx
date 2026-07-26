@@ -440,7 +440,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
                           <div className="bg-yellow-600/30 rounded-sm" />
                         </div>
                       </div>
-                      <div className="text-white/40 text-[10px] font-bold uppercase tracking-widest">SkyBook</div>
+                      <div className="text-white/40 text-[10px] font-bold uppercase tracking-widest">SkyBookFare</div>
                     </div>
                     <div className="relative">
                       <p className="font-mono text-white text-sm font-bold tracking-widest mb-2">{displayCardNum}</p>

@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'About SkyBook — Our Story',
-  description: 'Learn about SkyBook, the flight search platform built to give travelers transparent pricing with no booking fees.',
+  title: 'About SkyBookFare — Our Story',
+  description: 'Learn about SkyBookFare, the flight search platform built to give travelers transparent pricing with no booking fees.',
 }
 
 export default function AboutPage() {
@@ -18,7 +18,7 @@ export default function AboutPage() {
             Transparent flights.<br />No surprises.
           </h1>
           <p className="text-blue-200 text-lg leading-relaxed">
-            SkyBook was founded on a simple belief: booking a flight should be fast, fair, and free of hidden fees.
+            SkyBookFare was founded on a simple belief: booking a flight should be fast, fair, and free of hidden fees.
           </p>
         </div>
       </section>
@@ -28,17 +28,17 @@ export default function AboutPage() {
         <h2 className="text-2xl font-black text-gray-900 mb-5">Our Story</h2>
         <div className="prose prose-gray max-w-none text-gray-600 space-y-4 text-[15px] leading-relaxed">
           <p>
-            Founded in 2019 and headquartered in San Francisco, SkyBook started as a small team of engineers and frequent
+            Founded in 2019 and headquartered in San Francisco, SkyBookFare started as a small team of engineers and frequent
             flyers who were tired of clicking through confusing fare matrices, booking-fee surprises at checkout, and
             interfaces that felt designed to obscure rather than inform.
           </p>
           <p>
-            We built SkyBook to aggregate real-time schedules from all major US carriers — American, Delta, United,
+            We built SkyBookFare to aggregate real-time schedules from all major US carriers — American, Delta, United,
             Southwest, JetBlue, Alaska, and Frontier — and surface them in a single, clean interface with the total
             price shown up front: base fare, taxes, and carrier fees included.
           </p>
           <p>
-            Today SkyBook serves hundreds of thousands of travelers searching domestic US flights each month. We
+            Today SkyBookFare serves hundreds of thousands of travelers searching domestic US flights each month. We
             don&apos;t charge booking fees. We don&apos;t sell your data. We make money through airline referral
             partnerships only when you actually complete a booking.
           </p>
@@ -48,7 +48,7 @@ export default function AboutPage() {
       {/* How it works */}
       <section id="how-it-works" className="bg-white border-y border-gray-100 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-black text-gray-900 mb-10 text-center">How SkyBook works</h2>
+          <h2 className="text-2xl font-black text-gray-900 mb-10 text-center">How SkyBookFare works</h2>
           <div className="grid sm:grid-cols-3 gap-8">
             {[
               { step: '1', title: 'Enter your trip details', body: 'Choose your origin, destination, travel dates, cabin class, and number of passengers.' },
@@ -90,8 +90,8 @@ export default function AboutPage() {
             {[
               { title: 'PCI DSS Level 1', body: 'Our payment infrastructure meets the highest level of PCI Data Security Standard compliance, independently audited annually.' },
               { title: 'TLS 1.3 Encryption', body: 'All data in transit is encrypted with TLS 1.3. Payment card data is tokenized and never stored on our servers.' },
-              { title: 'SOC 2 Type II', body: 'SkyBook holds a SOC 2 Type II attestation, certifying our security, availability, and confidentiality controls.' },
-              { title: 'IATA Affiliate Member', body: 'As an IATA affiliate, SkyBook adheres to industry standards for fair and transparent distribution of airfare.' },
+              { title: 'SOC 2 Type II', body: 'SkyBookFare holds a SOC 2 Type II attestation, certifying our security, availability, and confidentiality controls.' },
+              { title: 'IATA Affiliate Member', body: 'As an IATA affiliate, SkyBookFare adheres to industry standards for fair and transparent distribution of airfare.' },
             ].map(t => (
               <div key={t.title} className="flex gap-4 p-5 rounded-xl border border-gray-100 bg-gray-50">
                 <div className="w-8 h-8 shrink-0 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-base">✓</div>

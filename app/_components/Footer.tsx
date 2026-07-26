@@ -23,7 +23,7 @@ export default function Footer() {
               <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
               </svg>
-              <span className="text-white font-bold text-lg">SkyBook</span>
+              <span className="text-white font-bold text-lg">SkyBookFare</span>
             </div>
             <p className="text-sm leading-relaxed mb-3">
               Search and compare flights across all major US airlines. Real schedules, transparent pricing.
@@ -37,7 +37,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3 text-sm">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="hover:text-white transition-colors">About SkyBook</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About SkyBookFare</Link></li>
               <li><Link href="/about#how-it-works" className="hover:text-white transition-colors">How it works</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact us</Link></li>
             </ul>
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
-          <p>© 2026 SkyBook, Inc. All rights reserved.</p>
+          <p>© 2026 SkyBookFare, Inc. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>

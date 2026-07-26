@@ -92,12 +92,12 @@ function relatedRoutes(from: string): [string,string][] {
 export async function generateMetadata({ params }: { params: Promise<{ route: string }> }): Promise<Metadata> {
   const { route } = await params
   const parsed = parseRoute(route)
-  if (!parsed) return { title: 'Route Not Found | SkyBook' }
+  if (!parsed) return { title: 'Route Not Found | SkyBookFare' }
   const { from, to } = parsed
   const price = estimatePrice(haversineKm(from, to))
   return {
-    title: `Cheap Flights ${from.city} to ${to.city} (${from.code}–${to.code}) | From $${price} | SkyBook`,
-    description: `Find the cheapest flights from ${from.city} (${from.code}) to ${to.city} (${to.code}). Compare fares across all major airlines. Book now from $${price} on SkyBook — no booking fees.`,
+    title: `Cheap Flights ${from.city} to ${to.city} (${from.code}–${to.code}) | From $${price} | SkyBookFare`,
+    description: `Find the cheapest flights from ${from.city} (${from.code}) to ${to.city} (${to.code}). Compare fares across all major airlines. Book now from $${price} on SkyBookFare — no booking fees.`,
     openGraph: {
       title: `${from.city} → ${to.city} Flights from $${price}`,
       description: `Compare flights from ${from.city} to ${to.city}. All airlines, no hidden fees.`,
@@ -151,7 +151,7 @@ export default async function RoutePage({ params }: { params: Promise<{ route: s
     },
     {
       q: `Which airlines fly from ${from.code} to ${to.code}?`,
-      a: `American Airlines, Delta, and United are the most common carriers on this route. Southwest, JetBlue, and Alaska Airlines also operate flights depending on the season. SkyBook compares all of them at once so you always get the best available fare.`,
+      a: `American Airlines, Delta, and United are the most common carriers on this route. Southwest, JetBlue, and Alaska Airlines also operate flights depending on the season. SkyBookFare compares all of them at once so you always get the best available fare.`,
     },
     {
       q: `Does ${from.code} to ${to.code} have nonstop flights?`,
@@ -161,7 +161,7 @@ export default async function RoutePage({ params }: { params: Promise<{ route: s
     },
     {
       q: `How far in advance should I book flights to ${to.city}?`,
-      a: `For domestic US flights, the sweet spot is typically 3–8 weeks before departure. Last-minute fares (within 7 days) are usually the most expensive. SkyBook shows live pricing so you can track when fares drop.`,
+      a: `For domestic US flights, the sweet spot is typically 3–8 weeks before departure. Last-minute fares (within 7 days) are usually the most expensive. SkyBookFare shows live pricing so you can track when fares drop.`,
     },
   ]
 
@@ -242,7 +242,7 @@ export default async function RoutePage({ params }: { params: Promise<{ route: s
               </p>
               <p>
                 Multiple airlines compete on the {from.code}–{to.code} route, keeping fares competitive.
-                SkyBook compares all available options in real time so you always see the lowest current price
+                SkyBookFare compares all available options in real time so you always see the lowest current price
                 across every airline with no booking fees added.
               </p>
             </div>
