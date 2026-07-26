@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AIRPORTS, AIRLINES, AIRPORT_TZ, getBasePrice, localToUTC, generateFlights, type Flight } from '@/lib/data'
 import { applyDatePricing, getScheduledFlights } from '@/lib/schedule'
+import { normalizeFlightEconomyPrices } from '@/lib/pricing'
 
 // ── IATA aircraft type codes → readable names (used by Amadeus path) ─────────
 const AIRCRAFT_CODES: Record<string, string> = {
@@ -139,7 +140,8 @@ async function fetchFromSerpAPI(
   if (!offers.length) return null
 
   const flights = offers.map((o, i) => mapSerpOffer(o, i, date)).filter(Boolean) as Flight[]
-  return flights.length ? flights : null
+  if (!flights.length) return null
+  return normalizeFlightEconomyPrices(flights, 1)
 }
 
 // ── Amadeus path (fallback) ───────────────────────────────────────────────────
@@ -244,7 +246,8 @@ async function fetchFromAmadeus(
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const flights = data.data.map((o: any, i: number) => mapAmadeusOffer(o, i, date)).filter(Boolean) as Flight[]
-    return flights.length ? flights : null
+    if (!flights.length) return null
+    return normalizeFlightEconomyPrices(flights, 1)
   } catch {
     return null
   }

@@ -8,6 +8,7 @@ import {
   type Flight, type MultiCityLeg,
 } from '@/lib/data'
 import { setPendingBooking } from '@/lib/store'
+import { normalizeFlightEconomyPrices } from '@/lib/pricing'
 
 interface Props {
   from: string; to: string; date: string; returnDate?: string
@@ -101,8 +102,9 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
       setMcFlightsPerLeg([])
       setMcSelected([])
       setMcCurrentLeg(0)
+      const legShare = 1 / legs.length
       Promise.all(legs.map(l => fetchFlights(l.from, l.to, l.date, passengers, cabinClass))).then(results => {
-        setMcFlightsPerLeg(results.map(r => r.flights))
+        setMcFlightsPerLeg(results.map(r => normalizeFlightEconomyPrices(r.flights, legShare)))
         setSource(results[0]?.source ?? 'mock')
         setLoading(false)
       })
@@ -115,6 +117,10 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
     setReturnFlights([])
     setSelectedOutbound(null)
 
+    // One-way: each leg ~ full target base (~$412 → checkout ~$470 with tax).
+    // Round-trip: each leg ~ half so out+ret base ~$412 → checkout ~$470.
+    const legShare = tripType === 'roundTrip' ? 0.5 : 1
+
     const jobs: Promise<{ flights: Flight[]; source: Source }>[] = [
       fetchFlights(from, to, date, passengers, cabinClass),
     ]
@@ -123,9 +129,9 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
     }
 
     Promise.all(jobs).then(([out, ret]) => {
-      setOutboundFlights(out.flights)
+      setOutboundFlights(normalizeFlightEconomyPrices(out.flights, legShare))
       setSource(out.source)
-      if (ret) setReturnFlights(ret.flights)
+      if (ret) setReturnFlights(normalizeFlightEconomyPrices(ret.flights, legShare))
       setLoading(false)
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps

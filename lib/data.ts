@@ -1,4 +1,5 @@
 import { getScheduledFlights, applyDatePricing } from './schedule'
+import { normalizeFlightEconomyPrices } from './pricing'
 
 export interface Airport {
   code: string
@@ -430,7 +431,7 @@ export function generateFlights(from: string, to: string, date: string): Flight[
     // Seats left decreases as departure approaches
     const maxSeats = daysOut <= 3 ? 4 : daysOut <= 7 ? 9 : daysOut <= 21 ? 22 : 45
 
-    return scheduled.map((sf, i) => {
+    const flights = scheduled.map((sf, i) => {
       const airline = AIRLINES.find(a => a.code === sf.code) ??
         { code: sf.code, name: sf.code, color: '#555', logoUrl: `https://www.gstatic.com/flights/airline_logos/70px/${sf.code}.png` }
       const baggage = BAGGAGE[sf.code] || { carryOnIncluded: true, checkedBagPrice: 35 }
@@ -462,7 +463,11 @@ export function generateFlights(from: string, to: string, date: string): Flight[
         business: { price: Math.round(economyPrice * 2.8 * 100) / 100,    seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.3)) },
         first:    { price: Math.round(economyPrice * 5.5 * 100) / 100,    seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.12)) },
       } as Flight
-    }).sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime())
+    })
+    // Band economy around ~$412 one-way base (checkout + tax ≈ $470); SearchResults
+    // re-normalizes RT legs to half-share so a round-trip also checks out near $470.
+    return normalizeFlightEconomyPrices(flights, 1)
+      .sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime())
   }
 
   // ── Fallback: haversine-based random generation for unlisted routes ────
@@ -471,7 +476,7 @@ export function generateFlights(from: string, to: string, date: string): Flight[
   const count = 7 + Math.floor(countRand() * 4)
   const stopOptions = MAJOR_HUBS.filter(h => h !== from && h !== to)
 
-  return Array.from({ length: count }, (_, i) => {
+  const generated = Array.from({ length: count }, (_, i) => {
     const r = seededRand(`${from}-${to}-${date}-${i}`)
     const airline = AIRLINES[Math.floor(r() * AIRLINES.length)]
     const aircraftList = AIRCRAFT[airline.code] || ['Boeing 737-800']
@@ -525,7 +530,9 @@ export function generateFlights(from: string, to: string, date: string): Flight[
       business: { price: Math.round(economyPrice * 2.8 * 100) / 100,       seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.3)) },
       first:    { price: Math.round(economyPrice * 5.5 * 100) / 100,       seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.12)) },
     } as Flight
-  }).sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime())
+  })
+  return normalizeFlightEconomyPrices(generated, 1)
+    .sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime())
 }
 
 export function formatPrice(amount: number): string {

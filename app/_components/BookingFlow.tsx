@@ -19,6 +19,7 @@ import {
   generatePNR,
 } from '@/lib/data'
 import { getPendingBooking, addBooking } from '@/lib/store'
+import { computeCheckoutTotals } from '@/lib/pricing'
 
 export default function BookingFlow({ flightId }: { flightId: string }) {
   const router = useRouter()
@@ -78,13 +79,12 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
   const { outboundFlight: flight, returnFlight, multiCityFlights, searchParams } = pending
   const { cabinClass, passengers: passengerCount } = searchParams
 
-  const isMultiCity   = searchParams.tripType === 'multicity' && !!multiCityFlights
-  const basePerPerson = isMultiCity
-    ? multiCityFlights!.reduce((s, f) => s + getPriceForClass(f, cabinClass), 0)
-    : getPriceForClass(flight, cabinClass) + (returnFlight ? getPriceForClass(returnFlight, cabinClass) : 0)
-  const baseFare   = basePerPerson * passengerCount
-  const taxes      = Math.round(baseFare * 0.14 * 100) / 100
-  const totalPrice = baseFare + taxes + seatAddonCost
+  // Normalize so economy checkout is ~$470 × passengers (+ seat add-ons); business/first scale up
+  const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
+    passengers: passengerCount,
+    cabinClass,
+    seatAddonCost,
+  })
 
   const seatMap: SeatRow[] = generateSeatMap(flight.id, cabinClass)
 
