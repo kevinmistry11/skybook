@@ -2,10 +2,12 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AIRPORTS, type Airport } from '@/lib/data'
 
+import { SITE_URL } from '@/lib/site'
+
 export const metadata: Metadata = {
-  title: 'Popular US Domestic Flight Routes | SkyBookFare',
-  description: 'Browse cheap flights on the most popular US domestic routes. Compare fares across all major airlines on routes like New York to LA, San Francisco to Nashville, and more.',
-  alternates: { canonical: 'https://skybookfare.com/flights' },
+  title: 'Popular US Domestic Flight Routes',
+  description: 'Browse cheap flights on the most popular US domestic routes on SkyBookFare. Compare fares across all major airlines on routes like New York to LA, San Francisco to Nashville, and more.',
+  alternates: { canonical: `${SITE_URL}/flights` },
 }
 
 const FEATURED: [string, string, number][] = [

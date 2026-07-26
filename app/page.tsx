@@ -1,7 +1,20 @@
+import type { Metadata } from 'next'
 import SearchForm from '@/app/_components/SearchForm'
 import AirlineLogoGrid from '@/app/_components/AirlineLogoGrid'
 import BookingCounter from '@/app/_components/BookingCounter'
 import Link from 'next/link'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
+
+export const metadata: Metadata = {
+  title: `${SITE_NAME} — Find & Book Cheap Flights Online`,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: SITE_URL },
+  openGraph: {
+    title: `${SITE_NAME} — Find & Book Cheap Flights Online`,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+  },
+}
 
 const FAQ_SCHEMA = {
   "@context": "https://schema.org",
@@ -72,11 +85,11 @@ export default function Home() {
               <span>✈️</span> All Major US Airlines · One Search
             </p>
             <h1 className="text-5xl sm:text-6xl font-black text-white leading-tight mb-4 tracking-tight">
-              Find Flights.<br className="sm:hidden" />
-              <span className="bg-gradient-to-r from-cyan-300 to-sky-200 bg-clip-text text-transparent"> Not Surprises.</span>
+              SkyBookFare<br className="sm:hidden" />
+              <span className="bg-gradient-to-r from-cyan-300 to-sky-200 bg-clip-text text-transparent"> Cheap Flights.</span>
             </h1>
-            <p className="text-blue-200/90 text-lg font-medium">
-              No booking fees · No hidden charges · Real prices
+            <p className="text-blue-200/90 text-lg font-medium max-w-2xl mx-auto">
+              Search US flights on SkyBookFare.com — no booking fees, no hidden charges, real prices.
             </p>
           </div>
 
@@ -300,12 +313,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Popular Routes ── */}
+      {/* ── Brand / SEO copy (helps Google associate the name SkyBookFare) ── */}
       <section className="bg-white border-t border-gray-100 py-14">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-black text-gray-900 mb-4">What is SkyBookFare?</h2>
+          <div className="space-y-4 text-[15px] text-gray-600 leading-relaxed">
+            <p>
+              <strong className="text-gray-900">SkyBookFare</strong> (skybookfare.com) is an online flight search
+              and booking site for US domestic travel. Travelers use SkyBookFare to compare fares from major airlines
+              including American Airlines, Delta, United, Southwest, JetBlue, Alaska, and Frontier — all in one place.
+            </p>
+            <p>
+              Unlike some booking sites, SkyBookFare shows transparent pricing up front and does not add a separate
+              booking fee at checkout. Search one-way, round-trip, or multi-city trips, pick your seats, and receive
+              an e-ticket by email.
+            </p>
+            <p>
+              Looking for us? Search <strong className="text-gray-900">SkyBookFare</strong> or visit{' '}
+              <a href={SITE_URL} className="text-blue-600 font-semibold hover:underline">www.skybookfare.com</a>.
+              Explore <Link href="/flights" className="text-blue-600 font-semibold hover:underline">popular flight routes</Link>,
+              read <Link href="/about" className="text-blue-600 font-semibold hover:underline">about SkyBookFare</Link>,
+              or <Link href="/contact" className="text-blue-600 font-semibold hover:underline">contact support</Link>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Popular Routes ── */}
+      <section className="bg-gray-50 border-t border-gray-100 py-14">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-black text-gray-900">Popular Routes</h2>
+              <h2 className="text-2xl font-black text-gray-900">Popular Routes on SkyBookFare</h2>
               <p className="text-gray-500 text-sm mt-1">Browse flights on the most searched US routes</p>
             </div>
             <Link href="/flights" className="text-sm font-semibold text-blue-600 hover:underline hidden sm:block">

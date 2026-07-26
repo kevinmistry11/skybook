@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { SITE_URL } from '@/lib/site'
+
 export const metadata: Metadata = {
   title: 'About SkyBookFare — Our Story',
-  description: 'Learn about SkyBookFare, the flight search platform built to give travelers transparent pricing with no booking fees.',
+  description: 'Learn about SkyBookFare (skybookfare.com), the flight search platform built to give travelers transparent pricing with no booking fees.',
+  alternates: { canonical: `${SITE_URL}/about` },
 }
 
 export default function AboutPage() {
@@ -15,10 +18,10 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-4">About Us</p>
           <h1 className="text-4xl sm:text-5xl font-black mb-5 leading-tight">
-            Transparent flights.<br />No surprises.
+            About SkyBookFare
           </h1>
           <p className="text-blue-200 text-lg leading-relaxed">
-            SkyBookFare was founded on a simple belief: booking a flight should be fast, fair, and free of hidden fees.
+            SkyBookFare.com — transparent flights, no surprises. Booking a flight should be fast, fair, and free of hidden fees.
           </p>
         </div>
       </section>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/site'
 
-const base = 'https://skybookfare.com'
+const base = SITE_URL
 
 const POPULAR_PAIRS: [string, string][] = [
   ['JFK','LAX'],['JFK','SFO'],['JFK','MIA'],['JFK','ORD'],['JFK','LAS'],
@@ -11,6 +12,7 @@ const POPULAR_PAIRS: [string, string][] = [
   ['LAX','BNA'],['LAX','MCO'],['LAX','CLT'],
   ['SFO','LAS'],['SFO','BNA'],['SFO','SEA'],['SFO','DEN'],['SFO','ORD'],
   ['SFO','PHX'],['SFO','ATL'],['SFO','MIA'],['SFO','DFW'],['SFO','CLT'],
+  ['SFO','CLE'], // featured route
   ['ATL','ORD'],['ATL','DFW'],['ATL','MIA'],['ATL','CLT'],['ATL','BNA'],
   ['ATL','MCO'],['ATL','BOS'],['ATL','DEN'],['ATL','SEA'],
   ['ORD','DFW'],['ORD','MIA'],['ORD','BOS'],['ORD','DEN'],['ORD','CLT'],
@@ -25,6 +27,7 @@ const POPULAR_PAIRS: [string, string][] = [
   ['SEA','LAS'],['SEA','PHX'],['SEA','DEN'],
   ['LAS','PHX'],['LAS','DFW'],['LAS','ATL'],
   ['MCO','BOS'],['MCO','ORD'],['MCO','DFW'],
+  ['CLE','SFO'],['CLE','JFK'],['CLE','LAX'],['CLE','ORD'],
 ]
 
 function routeUrls(): MetadataRoute.Sitemap {
@@ -34,7 +37,12 @@ function routeUrls(): MetadataRoute.Sitemap {
     for (const slug of [`${a.toLowerCase()}-to-${b.toLowerCase()}`, `${b.toLowerCase()}-to-${a.toLowerCase()}`]) {
       if (!seen.has(slug)) {
         seen.add(slug)
-        entries.push({ url: `${base}/flights/${slug}`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 })
+        entries.push({
+          url: `${base}/flights/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.7,
+        })
       }
     }
   }
@@ -43,15 +51,15 @@ function routeUrls(): MetadataRoute.Sitemap {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
-    { url: base,                   lastModified: new Date(), changeFrequency: 'daily',   priority: 1   },
-    { url: `${base}/search`,       lastModified: new Date(), changeFrequency: 'daily',   priority: 0.8 },
-    { url: `${base}/flights`,      lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${base}/about`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${base}/contact`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${base}/help`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${base}/baggage`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
-    { url: `${base}/privacy`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
-    { url: `${base}/terms`,        lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
+    { url: base,              lastModified: new Date(), changeFrequency: 'daily',   priority: 1   },
+    { url: `${base}/search`,  lastModified: new Date(), changeFrequency: 'daily',   priority: 0.9 },
+    { url: `${base}/flights`, lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
+    { url: `${base}/about`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${base}/help`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${base}/baggage`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${base}/privacy`, lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
+    { url: `${base}/terms`,   lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
     ...routeUrls(),
   ]
 }

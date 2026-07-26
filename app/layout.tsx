@@ -5,6 +5,7 @@ import Navbar from "@/app/_components/Navbar";
 import Footer from "@/app/_components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -12,25 +13,58 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "SkyBookFare — Find & Book Cheap Flights",
-  description: "Search and compare cheap flights across all major US airlines. Book flights with no booking fees, real prices, and free cancellation on select fares.",
-  keywords: ["cheap flights", "flight search", "book flights", "airline tickets", "flight deals", "SkyBookFare", "skybookfare"],
-  metadataBase: new URL("https://skybookfare.com"),
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "SkyBookFare",
+    "skybookfare",
+    "skybookfare.com",
+    "cheap flights",
+    "flight search",
+    "book flights online",
+    "US domestic flights",
+    "airline tickets",
+    "flight deals",
+    "no booking fees",
+  ],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
-    title: "SkyBookFare — Find & Book Cheap Flights",
-    description: "Search and compare cheap flights across all major US airlines. No booking fees, real prices.",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: SITE_DESCRIPTION,
     type: "website",
-    siteName: "SkyBookFare",
-    url: "https://skybookfare.com",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SkyBookFare — Find & Book Cheap Flights",
-    description: "Compare flights across all major US airlines. Book with no fees.",
+    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    description: "Compare US flights with transparent prices and no booking fees on SkyBookFare.",
   },
-  robots: { index: true, follow: true },
-  verification: { google: 'Oc2hn6VGpPjZIKFFe5NXMSM5umF3tkQpM90WZGAWXwU' },
-  other: { 'google-adsense-account': 'ca-pub-6813946412691851' },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  verification: { google: "Oc2hn6VGpPjZIKFFe5NXMSM5umF3tkQpM90WZGAWXwU" },
+  other: { "google-adsense-account": "ca-pub-6813946412691851" },
+  category: "travel",
 };
 
 export default function RootLayout({
@@ -44,41 +78,54 @@ export default function RootLayout({
         <Footer />
         <Analytics />
 
-        {/* Structured data — Organization + WebSite (sitelinks search box) */}
-        <Script id="schema-org" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "SkyBookFare",
-            "url": "https://skybookfare.com",
-            "logo": "https://skybookfare.com/logo.png",
-            "description": "Search and compare cheap flights across all major US airlines. No booking fees, real prices.",
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+1-800-759-2665",
-              "contactType": "customer support",
-              "availableLanguage": "English",
-              "areaServed": "US"
-            },
-            "sameAs": []
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "SkyBookFare",
-            "url": "https://skybookfare.com",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://skybookfare.com/search?from={from}&to={to}&date={date}&passengers=1&cabinClass=economy&tripType=roundTrip"
+        {/* Structured data — Organization + WebSite (helps brand & sitelinks) */}
+        <Script
+          id="schema-org"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: SITE_NAME,
+                alternateName: ["Sky Book Fare", "SkyBook Fare", "skybookfare.com"],
+                url: SITE_URL,
+                logo: `${SITE_URL}/logo.svg`,
+                description: SITE_DESCRIPTION,
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  telephone: "+1-800-759-2665",
+                  contactType: "customer support",
+                  availableLanguage: "English",
+                  areaServed: "US",
+                },
+                sameAs: [],
               },
-              "query-input": "required name=from"
-            }
-          }
-        ]) }} />
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: SITE_NAME,
+                alternateName: "skybookfare.com",
+                url: SITE_URL,
+                description: SITE_DESCRIPTION,
+                inLanguage: "en-US",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    urlTemplate: `${SITE_URL}/search?from={from}&to={to}&date={date}&passengers=1&cabinClass=economy&tripType=roundTrip`,
+                  },
+                  "query-input": [
+                    "required name=from",
+                    "required name=to",
+                    "required name=date",
+                  ],
+                },
+              },
+            ]),
+          }}
+        />
 
-        {/* Google AdSense — replace XXXXXXXXXXXXXXXXX with your publisher ID */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6813946412691851"
