@@ -78,6 +78,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
 
   const { outboundFlight: flight, returnFlight, multiCityFlights, searchParams } = pending
   const { cabinClass, passengers: passengerCount } = searchParams
+  const isMultiCity = searchParams.tripType === 'multicity' && !!multiCityFlights
 
   // Normalize so economy checkout is ~$400 × passengers (+ seat add-ons); business/first scale up
   const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
@@ -85,6 +86,25 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
     cabinClass,
     seatAddonCost,
   })
+
+  // Split base fare across legs for display so order summary lines add up to the target total
+  const displayLegs: Flight[] = isMultiCity
+    ? multiCityFlights!
+    : returnFlight
+      ? [flight, returnFlight]
+      : [flight]
+  const rawLegPrices = displayLegs.map(f => getPriceForClass(f, cabinClass))
+  const rawLegSum = rawLegPrices.reduce((s, p) => s + p, 0) || 1
+  const displayLegPrices = rawLegPrices.map((p, i) => {
+    if (i === rawLegPrices.length - 1) {
+      const allocated = displayLegs.slice(0, -1).reduce((s, _, j) => {
+        return s + Math.round((rawLegPrices[j] / rawLegSum) * (baseFare / passengerCount) * 100) / 100
+      }, 0)
+      return Math.round((baseFare / passengerCount - allocated) * 100) / 100
+    }
+    return Math.round((p / rawLegSum) * (baseFare / passengerCount) * 100) / 100
+  })
+  const legPriceById = Object.fromEntries(displayLegs.map((f, i) => [f.id, displayLegPrices[i]]))
 
   const seatMap: SeatRow[] = generateSeatMap(flight.id, cabinClass)
 
@@ -530,11 +550,11 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
                 <div className="bg-white p-4 space-y-3">
                   {isMultiCity
                     ? multiCityFlights!.map((f, i) => (
-                        <FlightMini key={f.id} flight={f} cabinClass={cabinClass} label={`Leg ${i + 1}`} />
+                        <FlightMini key={f.id} flight={f} cabinClass={cabinClass} label={`Leg ${i + 1}`} displayPrice={legPriceById[f.id]} />
                       ))
                     : <>
-                        <FlightMini flight={flight} cabinClass={cabinClass} label={returnFlight ? 'Outbound' : 'Flight'} />
-                        {returnFlight && <FlightMini flight={returnFlight} cabinClass={cabinClass} label="Return" />}
+                        <FlightMini flight={flight} cabinClass={cabinClass} label={returnFlight ? 'Outbound' : 'Flight'} displayPrice={legPriceById[flight.id]} />
+                        {returnFlight && <FlightMini flight={returnFlight} cabinClass={cabinClass} label="Return" displayPrice={legPriceById[returnFlight.id]} />}
                       </>
                   }
 
@@ -606,7 +626,13 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
   )
 }
 
-function FlightMini({ flight, cabinClass, label }: { flight: Flight; cabinClass: 'economy'|'business'|'first'; label: string }) {
+function FlightMini({ flight, cabinClass, label, displayPrice }: {
+  flight: Flight
+  cabinClass: 'economy'|'business'|'first'
+  label: string
+  displayPrice?: number
+}) {
+  const price = displayPrice ?? getPriceForClass(flight, cabinClass)
   return (
     <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
       <div className="flex items-center justify-between mb-2">
@@ -646,7 +672,7 @@ function FlightMini({ flight, cabinClass, label }: { flight: Flight; cabinClass:
       </div>
       <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between text-[10px] text-gray-400">
         <span>{formatDate(flight.departureTime, AIRPORT_TZ[flight.origin.code])}</span>
-        <span className="font-medium text-gray-500">${formatPrice(getPriceForClass(flight, cabinClass))} / person</span>
+        <span className="font-medium text-gray-500">${formatPrice(price)} / person</span>
       </div>
     </div>
   )
