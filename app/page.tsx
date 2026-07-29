@@ -6,11 +6,12 @@ import Link from 'next/link'
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: `${SITE_NAME} — Find & Book Cheap Flights Online`,
+  // Brand name first — unambiguous match for "skybookfare" queries
+  title: { absolute: 'SkyBookFare | Official Site — Book Cheap Flights' },
   description: SITE_DESCRIPTION,
   alternates: { canonical: SITE_URL },
   openGraph: {
-    title: `${SITE_NAME} — Find & Book Cheap Flights Online`,
+    title: 'SkyBookFare | Official Site — Book Cheap Flights',
     description: SITE_DESCRIPTION,
     url: SITE_URL,
   },
@@ -44,6 +45,16 @@ const FAQ_SCHEMA = {
       "@type": "Question",
       "name": "Is SkyBookFare secure?",
       "acceptedAnswer": { "@type": "Answer", "text": "Yes. SkyBookFare uses 256-bit SSL encryption, is PCI DSS Level 1 certified, and SOC 2 Type II attested. Your payment data is never stored on our servers." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the official SkyBookFare website?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The official SkyBookFare website is https://www.skybookfare.com. SkyBookFare is a US flight search and booking site and is not affiliated with similarly named third-party sites." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I spell SkyBookFare?",
+      "acceptedAnswer": { "@type": "Answer", "text": "SkyBookFare is one word with capital S, B, and F — SkyBookFare. The domain is skybookfare.com (www.skybookfare.com)." }
     },
   ]
 }
@@ -84,12 +95,12 @@ export default function Home() {
             <p className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-bold px-4 py-1.5 rounded-full mb-5 border border-white/20 uppercase tracking-widest">
               <span>✈️</span> All Major US Airlines · One Search
             </p>
-            <h1 className="text-5xl sm:text-6xl font-black text-white leading-tight mb-4 tracking-tight">
-              SkyBookFare<br className="sm:hidden" />
-              <span className="bg-gradient-to-r from-cyan-300 to-sky-200 bg-clip-text text-transparent"> Cheap Flights.</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 tracking-tight">
+              SkyBookFare — Book Cheap Flights
             </h1>
             <p className="text-blue-200/90 text-lg font-medium max-w-2xl mx-auto">
-              Search US flights on SkyBookFare.com — no booking fees, no hidden charges, real prices.
+              Welcome to the official <strong className="text-white font-bold">SkyBookFare</strong> site
+              (skybookfare.com). Search US airlines with no booking fees, no hidden charges, and real prices.
             </p>
           </div>
 
@@ -319,21 +330,23 @@ export default function Home() {
           <h2 className="text-2xl font-black text-gray-900 mb-4">What is SkyBookFare?</h2>
           <div className="space-y-4 text-[15px] text-gray-600 leading-relaxed">
             <p>
-              <strong className="text-gray-900">SkyBookFare</strong> (skybookfare.com) is an online flight search
-              and booking site for US domestic travel. Travelers use SkyBookFare to compare fares from major airlines
-              including American Airlines, Delta, United, Southwest, JetBlue, Alaska, and Frontier — all in one place.
+              <strong className="text-gray-900">SkyBookFare</strong> is the brand name of this flight search service.
+              The official website is <strong className="text-gray-900">www.skybookfare.com</strong> (also known as
+              skybookfare.com). SkyBookFare is not affiliated with similarly named third-party booking sites.
             </p>
             <p>
-              Unlike some booking sites, SkyBookFare shows transparent pricing up front and does not add a separate
-              booking fee at checkout. Search one-way, round-trip, or multi-city trips, pick your seats, and receive
-              an e-ticket by email.
+              Travelers use SkyBookFare to compare US domestic fares from American Airlines, Delta, United, Southwest,
+              JetBlue, Alaska, Frontier, and more — in one place. SkyBookFare shows transparent pricing up front and
+              does not add a separate booking fee at checkout. Search one-way, round-trip, or multi-city trips, pick
+              seats, and receive an e-ticket by email.
             </p>
             <p>
-              Looking for us? Search <strong className="text-gray-900">SkyBookFare</strong> or visit{' '}
-              <a href={SITE_URL} className="text-blue-600 font-semibold hover:underline">www.skybookfare.com</a>.
+              To find the official site, search <strong className="text-gray-900">SkyBookFare</strong> or go directly to{' '}
+              <a href={SITE_URL} className="text-blue-600 font-semibold hover:underline">https://www.skybookfare.com</a>.
               Explore <Link href="/flights" className="text-blue-600 font-semibold hover:underline">popular flight routes</Link>,
               read <Link href="/about" className="text-blue-600 font-semibold hover:underline">about SkyBookFare</Link>,
-              or <Link href="/contact" className="text-blue-600 font-semibold hover:underline">contact support</Link>.
+              or <Link href="/contact" className="text-blue-600 font-semibold hover:underline">contact support</Link> at
+              support@skybookfare.com.
             </p>
           </div>
         </div>

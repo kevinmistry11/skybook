@@ -5,31 +5,40 @@ import Navbar from "@/app/_components/Navbar";
 import Footer from "@/app/_components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+  socialSameAs,
+} from "@/lib/site";
 
 const geist = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
+const sameAs = socialSameAs();
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    default: SITE_TITLE,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
   keywords: [
     "SkyBookFare",
+    "SkyBookFare official",
     "skybookfare",
     "skybookfare.com",
+    "www.skybookfare.com",
     "cheap flights",
     "flight search",
     "book flights online",
     "US domestic flights",
     "airline tickets",
-    "flight deals",
     "no booking fees",
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
@@ -39,7 +48,7 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     type: "website",
     siteName: SITE_NAME,
@@ -48,8 +57,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
-    description: "Compare US flights with transparent prices and no booking fees on SkyBookFare.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -78,7 +87,7 @@ export default function RootLayout({
         <Footer />
         <Analytics />
 
-        {/* Structured data — Organization + WebSite (helps brand & sitelinks) */}
+        {/* Organization + WebSite + Brand — brand entity for Google */}
         <Script
           id="schema-org"
           type="application/ld+json"
@@ -87,28 +96,62 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
+                "@id": `${SITE_URL}/#organization`,
                 name: SITE_NAME,
-                alternateName: ["Sky Book Fare", "SkyBook Fare", "skybookfare.com"],
+                legalName: "SkyBookFare, Inc.",
+                alternateName: [
+                  "SkyBookFare",
+                  "Sky Book Fare",
+                  "SkyBook Fare",
+                  "skybookfare",
+                  "skybookfare.com",
+                  "www.skybookfare.com",
+                ],
                 url: SITE_URL,
-                logo: `${SITE_URL}/logo.svg`,
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${SITE_URL}/logo.svg`,
+                },
+                image: `${SITE_URL}/logo.svg`,
                 description: SITE_DESCRIPTION,
+                foundingDate: "2019",
+                areaServed: {
+                  "@type": "Country",
+                  name: "United States",
+                },
                 contactPoint: {
                   "@type": "ContactPoint",
                   telephone: "+1-800-759-2665",
                   contactType: "customer support",
+                  email: "support@skybookfare.com",
                   availableLanguage: "English",
                   areaServed: "US",
                 },
-                sameAs: [],
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "601 Montgomery St, Suite 1400",
+                  addressLocality: "San Francisco",
+                  addressRegion: "CA",
+                  postalCode: "94111",
+                  addressCountry: "US",
+                },
+                ...(sameAs.length ? { sameAs } : {}),
+                brand: {
+                  "@type": "Brand",
+                  name: SITE_NAME,
+                  url: SITE_URL,
+                },
               },
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
+                "@id": `${SITE_URL}/#website`,
                 name: SITE_NAME,
-                alternateName: "skybookfare.com",
+                alternateName: ["skybookfare.com", "SkyBookFare Official"],
                 url: SITE_URL,
                 description: SITE_DESCRIPTION,
                 inLanguage: "en-US",
+                publisher: { "@id": `${SITE_URL}/#organization` },
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
