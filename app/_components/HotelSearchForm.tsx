@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { searchCities, cityLabel } from '@/lib/cities'
+import { POPULAR_CITIES, cityLabel, type City } from '@/lib/cities'
 
 function todayISO() {
   const d = new Date()
@@ -40,8 +40,27 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
   const destRef = useRef<HTMLDivElement>(null)
+  const [suggestions, setSuggestions] = useState<City[]>(POPULAR_CITIES)
 
-  const suggestions = searchCities(q, 8)
+  // Fetch city suggestions from the server as the user types (debounced).
+  useEffect(() => {
+    const query = q.trim()
+    const ctrl = new AbortController()
+    const t = setTimeout(() => {
+      if (!query) {
+        setSuggestions(POPULAR_CITIES)
+        return
+      }
+      fetch(`/api/cities?q=${encodeURIComponent(query)}`, { signal: ctrl.signal })
+        .then(r => r.json())
+        .then(data => setSuggestions(Array.isArray(data.results) ? data.results : []))
+        .catch(() => { /* ignore aborts/errors, keep last list */ })
+    }, query ? 180 : 0)
+    return () => {
+      clearTimeout(t)
+      ctrl.abort()
+    }
+  }, [q])
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
