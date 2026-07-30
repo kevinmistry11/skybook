@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { searchCities, cityLabel } from '@/lib/cities'
 
 function todayISO() {
   const d = new Date()
@@ -33,6 +34,20 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
   const [checkOut, setCheckOut] = useState(defaults.checkOut || addDaysISO(minIn, 17))
   const [adults, setAdults] = useState(defaults.adults || 2)
   const [error, setError] = useState('')
+  const [open, setOpen] = useState(false)
+  const destRef = useRef<HTMLDivElement>(null)
+
+  const suggestions = searchCities(q, 8)
+
+  useEffect(() => {
+    function onClickOutside(e: MouseEvent) {
+      if (destRef.current && !destRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [])
 
   function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -59,16 +74,57 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
   return (
     <form onSubmit={submit} className="w-full">
       <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="sm:col-span-2 lg:col-span-2">
+        <div ref={destRef} className="relative sm:col-span-2 lg:col-span-2">
           <label className={labelCls}>Destination</label>
           <input
             type="text"
             value={q}
-            onChange={e => setQ(e.target.value)}
+            onChange={e => {
+              setQ(e.target.value)
+              setOpen(true)
+            }}
+            onFocus={() => setOpen(true)}
             placeholder="City, neighborhood, or hotel"
             className={inputCls}
             autoComplete="off"
+            role="combobox"
+            aria-expanded={open}
+            aria-controls="hotel-dest-listbox"
+            aria-autocomplete="list"
           />
+          {open && suggestions.length > 0 && (
+            <div id="hotel-dest-listbox" role="listbox" className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-2xl z-[200] overflow-hidden">
+              {!q.trim() && (
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest px-4 pt-3 pb-1.5">
+                  Popular destinations
+                </p>
+              )}
+              {suggestions.map(c => {
+                const label = cityLabel(c)
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onMouseDown={() => {
+                      setQ(label)
+                      setError('')
+                      setOpen(false)
+                    }}
+                    className="w-full text-left px-4 py-2.5 hover:bg-blue-50 border-b border-gray-50 last:border-0 transition-colors flex items-center gap-3"
+                  >
+                    <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-sm font-semibold text-gray-900">{c.city}</span>
+                      <span className="text-xs text-gray-400 ml-1.5">{c.state}</span>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          )}
         </div>
         <div>
           <label className={labelCls}>Check-in</label>
