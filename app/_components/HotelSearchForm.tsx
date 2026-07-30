@@ -90,6 +90,7 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
               setOpen(true)
             }}
             onFocus={() => setOpen(true)}
+            onClick={() => setOpen(true)}
             placeholder="City, neighborhood, or hotel"
             className={inputCls}
             autoComplete="off"
@@ -98,37 +99,43 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
             aria-controls="hotel-dest-listbox"
             aria-autocomplete="list"
           />
-          {open && suggestions.length > 0 && (
+          {open && (
             <div id="hotel-dest-listbox" role="listbox" className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-2xl z-[200] overflow-hidden">
-              {!q.trim() && (
+              {!q.trim() && suggestions.length > 0 && (
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest px-4 pt-3 pb-1.5">
                   Popular destinations
                 </p>
               )}
-              {suggestions.map(c => {
-                const label = cityLabel(c)
-                return (
-                  <button
-                    key={label}
-                    type="button"
-                    onMouseDown={() => {
-                      setQ(label)
-                      setError('')
-                      setOpen(false)
-                    }}
-                    className="w-full text-left px-4 py-2.5 hover:bg-blue-50 border-b border-gray-50 last:border-0 transition-colors flex items-center gap-3"
-                  >
-                    <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <div className="min-w-0 flex-1">
-                      <span className="text-sm font-semibold text-gray-900">{c.city}</span>
-                      <span className="text-xs text-gray-400 ml-1.5">{c.state}</span>
-                    </div>
-                  </button>
-                )
-              })}
+              {suggestions.length > 0 ? (
+                suggestions.map(c => {
+                  const label = cityLabel(c)
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      onMouseDown={() => {
+                        setQ(label)
+                        setError('')
+                        setOpen(false)
+                      }}
+                      className="w-full text-left px-4 py-2.5 hover:bg-blue-50 border-b border-gray-50 last:border-0 transition-colors flex items-center gap-3"
+                    >
+                      <svg className="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <div className="min-w-0 flex-1">
+                        <span className="text-sm font-semibold text-gray-900">{c.city}</span>
+                        <span className="text-xs text-gray-400 ml-1.5">{c.state}</span>
+                      </div>
+                    </button>
+                  )
+                })
+              ) : q.trim().length >= 2 ? (
+                <div className="px-4 py-4 text-center text-sm text-gray-400">
+                  No matching cities — you can still search by hotel name or neighborhood
+                </div>
+              ) : null}
             </div>
           )}
         </div>
