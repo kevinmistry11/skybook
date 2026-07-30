@@ -68,6 +68,7 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-3 text-sm">Company</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/about" className="hover:text-white transition-colors">About SkyBookFare</Link></li>
+              <li><Link href="/press" className="hover:text-white transition-colors">Press & brand</Link></li>
               <li><Link href="/about#how-it-works" className="hover:text-white transition-colors">How it works</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact us</Link></li>
             </ul>
