@@ -101,9 +101,13 @@ async function fetchFromSerpAPI(params: HotelSearchParams): Promise<Hotel[] | nu
   }
   url.searchParams.set('api_key', key)
 
+  const debugUrl = url.toString().replace(/api_key=[^&]+/, 'api_key=***')
+  console.log('[hotels] SerpAPI request', debugUrl)
+
   const res = await fetch(url.toString(), { next: { revalidate: 600 } })
   if (!res.ok) {
-    console.error('[hotels] SerpAPI HTTP', res.status)
+    const body = await res.text().catch(() => '')
+    console.error('[hotels] SerpAPI HTTP', res.status, body.slice(0, 400))
     return null
   }
 
@@ -113,20 +117,21 @@ async function fetchFromSerpAPI(params: HotelSearchParams): Promise<Hotel[] | nu
     return null
   }
 
-  // List results
+  // List results — only keep hotels that have a real live rate.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const props: any[] = [...(data.properties ?? []), ...(data.ads ?? [])]
   if (props.length) {
-    const hotels = props
+    const hotels = (props
       .map((p, i) => mapSerpProperty(p, i, nights))
-      .filter(Boolean) as Hotel[]
+      .filter(Boolean) as Hotel[])
+      .filter(h => typeof h.pricePerNight === 'number' && h.pricePerNight > 0)
     return hotels.length ? sortHotels(hotels, params.sortBy ?? 'relevance') : null
   }
 
-  // Single property details response
+  // Single property details response — only if it has a live rate.
   if (data.name && data.search_information?.hotels_results_state?.includes('property')) {
     const one = mapSerpProperty(data, 0, nights)
-    return one ? [one] : null
+    return one && typeof one.pricePerNight === 'number' && one.pricePerNight > 0 ? [one] : null
   }
 
   return null
