@@ -543,8 +543,12 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
                 {/* Dark header */}
                 <div className="px-5 py-4" style={{ background: 'linear-gradient(135deg,#0a0f3d,#1a3ab8)' }}>
                   <p className="text-white font-black text-sm">Order Summary</p>
-                  <p className="text-white/50 text-[11px] mt-0.5">
-                    {isMultiCity ? 'Multi-City' : returnFlight ? 'Round Trip' : 'One Way'} · {passengerCount} {passengerCount === 1 ? 'passenger' : 'passengers'} · {fareName(flight.airline.code, cabinClass, flight.flightNumber)}
+                  <p className="text-white/50 text-[11px] mt-0.5 leading-snug break-words">
+                    {isMultiCity ? 'Multi-City' : returnFlight ? 'Round Trip' : 'One Way'}
+                    {' · '}
+                    {passengerCount === 1 ? '1 passenger' : `${passengerCount} passengers`}
+                    {' · '}
+                    {fareName(flight.airline.code, cabinClass, flight.flightNumber)}
                   </p>
                 </div>
 
