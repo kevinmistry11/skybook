@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   type Hotel,
   type HotelSearchParams,
-  mockHotels,
   sortHotels,
   nightsBetween,
 } from '@/lib/hotels'
@@ -181,14 +180,13 @@ export async function GET(req: NextRequest) {
     console.error('[hotels] live fetch failed', e)
   }
 
-  // Fallback demo inventory so the UI always works
-  const hotels = mockHotels(params)
+  // No live rates available — do not fabricate listings. Hand off to Kayak.
   return NextResponse.json({
-    hotels,
-    source: 'sample' as const,
+    hotels: [],
+    source: 'unavailable' as const,
     nights: nightsBetween(checkIn, checkOut),
     query: params,
     notice:
-      'Live hotel rates unavailable right now — showing sample rates. Book on Kayak for real-time prices.',
+      'Live hotel rates aren’t available right now. Continue your search on Kayak for real-time prices.',
   })
 }
