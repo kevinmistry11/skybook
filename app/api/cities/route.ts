@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic'
 interface RawCity {
   c: string
   s: string
+  p?: number
 }
 
 // Prepared once per server instance (cold start), reused across requests.
@@ -14,6 +15,7 @@ const CITIES = citiesData as RawCity[]
 const PREP = CITIES.map(x => ({
   c: x.c,
   s: x.s,
+  p: x.p || 0,
   cl: x.c.toLowerCase(),
   ll: `${x.c}, ${x.s}`.toLowerCase(),
 }))
@@ -29,7 +31,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ results: [] })
   }
 
-  type Scored = { c: string; s: string; tier: number; major: boolean; len: number }
+  type Scored = { c: string; s: string; tier: number; major: boolean; pop: number; len: number }
   const matches: Scored[] = []
 
   for (const city of PREP) {
@@ -47,15 +49,17 @@ export async function GET(req: NextRequest) {
       s: city.s,
       tier,
       major: MAJOR.has(`${city.cl}|${city.s.toLowerCase()}`),
+      pop: city.p,
       len: city.c.length,
     })
-    // Small perf cap: once we have plenty of tier-0 hits we can stop scanning early
-    if (matches.length > 400) break
+    // Perf cap: plenty to rank from once we've gathered this many
+    if (matches.length > 600) break
   }
 
   matches.sort((a, b) => {
     if (a.tier !== b.tier) return a.tier - b.tier
     if (a.major !== b.major) return a.major ? -1 : 1
+    if (a.pop !== b.pop) return b.pop - a.pop
     if (a.len !== b.len) return a.len - b.len
     return a.c.localeCompare(b.c)
   })
