@@ -542,7 +542,7 @@ export function formatPrice(amount: number): string {
 const FARE_NAMES: Record<string, { economy: string; business: string; first: string }> = {
   AA: { economy: 'Main Cabin',     business: 'Main Select',       first: 'First'           },
   DL: { economy: 'Delta Main',     business: 'Delta One',         first: 'First Class'     },
-  UA: { economy: 'Economy',        business: 'Polaris Business',  first: 'United First'    },
+  UA: { economy: 'Basic Economy',  business: 'Polaris Business',  first: 'United First'    },
   WN: { economy: 'Wanna Get Away', business: 'Anytime',           first: 'Business Select' },
   B6: { economy: 'Blue',           business: 'Mint',              first: 'Mint Suite'      },
   AS: { economy: 'Saver',          business: 'First Class',       first: 'First Class'     },

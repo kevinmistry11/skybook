@@ -194,7 +194,7 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
               <div>
                 <label className={labelCls}>Class</label>
                 <select value={cabinClass} onChange={e => setCabinClass(e.target.value)} className={inputCls}>
-                  <option value="economy">Economy</option>
+                  <option value="economy">Basic Economy</option>
                   <option value="business">Business</option>
                   <option value="first">First Class</option>
                 </select>
@@ -260,7 +260,7 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
             <div>
               <label className={labelCls}>Class</label>
               <select value={cabinClass} onChange={e => setCabinClass(e.target.value)} className={inputCls}>
-                <option value="economy">Economy</option>
+                <option value="economy">Basic Economy</option>
                 <option value="business">Business</option>
                 <option value="first">First Class</option>
               </select>
@@ -359,7 +359,7 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
           <div>
             <label className={labelCls}>Class</label>
             <select value={cabinClass} onChange={e => setCabinClass(e.target.value)} className={inputCls}>
-              <option value="economy">Economy</option>
+              <option value="economy">Basic Economy</option>
               <option value="business">Business</option>
               <option value="first">First Class</option>
             </select>
