@@ -199,7 +199,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
                 {multiCityFlights!.map(f => f.origin.code).join(' → ')} → {multiCityFlights![multiCityFlights!.length - 1].destination.code}
               </span>
               <span className="ml-auto bg-white/10 border border-white/20 text-white/80 text-xs font-semibold px-3 py-1 rounded-full">
-                {passengerCount} {passengerCount === 1 ? 'Passenger' : 'Passengers'} · {fareName(flight.airline.code, cabinClass)}
+                {passengerCount} {passengerCount === 1 ? 'Passenger' : 'Passengers'} · {fareName(flight.airline.code, cabinClass, flight.flightNumber)}
               </span>
             </div>
           ) : (
@@ -226,7 +226,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
               </div>
               <div className="ml-auto flex flex-wrap gap-2">
                 <span className="bg-white/10 border border-white/20 text-white/80 text-xs font-semibold px-3 py-1 rounded-full">
-                  {fareName(flight.airline.code, cabinClass)}
+                  {fareName(flight.airline.code, cabinClass, flight.flightNumber)}
                 </span>
                 <span className="bg-white/10 border border-white/20 text-white/80 text-xs font-semibold px-3 py-1 rounded-full">
                   {passengerCount} {passengerCount === 1 ? 'Passenger' : 'Passengers'}
@@ -544,7 +544,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
                 <div className="px-5 py-4" style={{ background: 'linear-gradient(135deg,#0a0f3d,#1a3ab8)' }}>
                   <p className="text-white font-black text-sm">Order Summary</p>
                   <p className="text-white/50 text-[11px] mt-0.5">
-                    {isMultiCity ? 'Multi-City' : returnFlight ? 'Round Trip' : 'One Way'} · {passengerCount} {passengerCount === 1 ? 'pax' : 'pax'} · {fareName(flight.airline.code, cabinClass)}
+                    {isMultiCity ? 'Multi-City' : returnFlight ? 'Round Trip' : 'One Way'} · {passengerCount} {passengerCount === 1 ? 'pax' : 'pax'} · {fareName(flight.airline.code, cabinClass, flight.flightNumber)}
                   </p>
                 </div>
 

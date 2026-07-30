@@ -532,7 +532,7 @@ function FlightCard({ flight, cabinClass, passengers, onSelect, isCheapest, outb
   const [imgFailed, setImgFailed] = useState(false)
   const [expanded, setExpanded]   = useState(false)
 
-  const fName   = fareName(flight.airline.code, cabinClass)
+  const fName   = fareName(flight.airline.code, cabinClass, flight.flightNumber)
   const fRule   = fareRule(flight.airline.code, cabinClass)
   const co2     = estimateCO2(flight.durationMinutes, cabinClass)
   const depTerm = getTerminal(flight.id + 'dep', flight.origin.country      !== 'US')

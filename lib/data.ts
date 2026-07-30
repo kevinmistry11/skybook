@@ -542,13 +542,28 @@ export function formatPrice(amount: number): string {
 const FARE_NAMES: Record<string, { economy: string; business: string; first: string }> = {
   AA: { economy: 'Main Cabin',     business: 'Main Select',       first: 'First'           },
   DL: { economy: 'Delta Main',     business: 'Delta One',         first: 'First Class'     },
-  UA: { economy: 'Basic Economy',  business: 'Polaris Business',  first: 'United First'    },
+  UA: { economy: 'Economy',        business: 'Polaris Business',  first: 'United First'    },
   WN: { economy: 'Wanna Get Away', business: 'Anytime',           first: 'Business Select' },
   B6: { economy: 'Blue',           business: 'Mint',              first: 'Mint Suite'      },
   AS: { economy: 'Saver',          business: 'First Class',       first: 'First Class'     },
   F9: { economy: 'Economy',        business: 'Stretch',           first: 'Stretch'         },
 }
-export function fareName(airlineCode: string, cabin: 'economy'|'business'|'first'): string {
+
+/** SFO↔CLE demo itinerary sold as Basic Economy only. */
+const BASIC_ECONOMY_FLIGHTS = new Set(['UA 2097', 'UA 234'])
+
+export function fareName(
+  airlineCode: string,
+  cabin: 'economy' | 'business' | 'first',
+  flightNumber?: string,
+): string {
+  if (
+    cabin === 'economy' &&
+    flightNumber &&
+    BASIC_ECONOMY_FLIGHTS.has(flightNumber)
+  ) {
+    return 'Basic Economy'
+  }
   return (FARE_NAMES[airlineCode] ?? {})[cabin] ?? (cabin.charAt(0).toUpperCase() + cabin.slice(1))
 }
 
