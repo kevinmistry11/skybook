@@ -87,7 +87,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
       ? [flight, returnFlight]
       : [flight]
 
-  // ~$470.80-ish with cents, varies slightly by itinerary (not a flat round number)
+  // ~$345-ish with cents, varies slightly by itinerary (not a flat round number)
   const priceSeed = displayLegs.map(f => f.id).join('|')
   const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
     passengers: passengerCount,

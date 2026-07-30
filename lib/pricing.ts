@@ -1,11 +1,11 @@
 /**
  * Demo pricing: economy checkouts land near TARGET_CHECKOUT_TOTAL with
- * realistic cents (not a round $400.00). Taxes are ~14% of base so
+ * realistic cents (not a round $345.00). Taxes are ~14% of base so
  * base + tax (+ seats) always add up.
  */
 
 /** Typical 1-adult economy total (pre-seats), with cents so it looks natural. */
-export const TARGET_CHECKOUT_TOTAL = 470.8
+export const TARGET_CHECKOUT_TOTAL = 345
 export const TAX_RATE = 0.14
 
 /** ± dollar band around the target for per-itinerary variance. */
@@ -58,7 +58,7 @@ export const CABIN_MULT = {
 
 /**
  * Checkout totals for a trip.
- * Economy: tax-inclusive total ≈ $470.80 ± spread (with cents), × passengers.
+ * Economy: tax-inclusive total ≈ $345 ± spread (with cents), × passengers.
  * Business/first scale the same target by cabin mult.
  * Seat add-ons are added on top.
  */

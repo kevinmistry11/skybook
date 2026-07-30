@@ -629,10 +629,12 @@ const S: Record<string, ScheduledFlight[]> = {
 
   // ── San Francisco ↔ Cleveland ─────────────────────────────────────────────
   'SFO-CLE': [
-    { code: 'UA', num: 2097, dep: '07:27', dur: 288, ac: 'Boeing 737-900',  fare: 199 },
+    // Red-eye: 11:20p PT -> 7:08a ET next day
+    { code: 'UA', num: 2097, dep: '23:20', dur: 288, ac: 'Boeing 737-800',   fare: 199 },
   ],
   'CLE-SFO': [
-    { code: 'UA', num: 234,  dep: '12:15', dur: 317, ac: 'Boeing 737-900',  fare: 207 },
+    // 5:10p ET -> 7:27p PT same day
+    { code: 'UA', num: 234,  dep: '17:10', dur: 317, ac: 'Boeing 737 MAX 8', fare: 207 },
   ],
 }
 

@@ -117,7 +117,7 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
     setReturnFlights([])
     setSelectedOutbound(null)
 
-    // One-way: each leg ~ full target base (checkout ~$470-ish with tax).
+    // One-way: each leg ~ full target base (checkout ~$345-ish with tax).
     // Round-trip: each leg ~ half so out+ret base yields a similar RT total.
     const legShare = tripType === 'roundTrip' ? 0.5 : 1
 
