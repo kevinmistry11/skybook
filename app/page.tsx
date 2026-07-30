@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import SearchForm from '@/app/_components/SearchForm'
+import HeroSearchTabs from '@/app/_components/HeroSearchTabs'
 import AirlineLogoGrid from '@/app/_components/AirlineLogoGrid'
 import BookingCounter from '@/app/_components/BookingCounter'
 import Link from 'next/link'
@@ -93,20 +93,20 @@ export default function Home() {
           {/* Headline */}
           <div className="text-center mb-10">
             <p className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-bold px-4 py-1.5 rounded-full mb-5 border border-white/20 uppercase tracking-widest">
-              <span>✈️</span> All Major US Airlines · One Search
+              <span>✈️</span> Flights &amp; Hotels · One Search
             </p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 tracking-tight">
-              SkyBookFare — Book Cheap Flights
+              SkyBookFare — Cheap Flights &amp; Hotels
             </h1>
             <p className="text-blue-200/90 text-lg font-medium max-w-2xl mx-auto">
               Welcome to the official <strong className="text-white font-bold">SkyBookFare</strong> site
-              (skybookfare.com). Search US airlines with no booking fees, no hidden charges, and real prices.
+              (skybookfare.com). Search US flights and hotels with no booking fees, no hidden charges, and real prices.
             </p>
           </div>
 
           {/* Search form — relative + z-10 so its dropdown always paints above trust badges */}
           <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl shadow-black/30 p-6 sm:p-8">
-            <SearchForm />
+            <HeroSearchTabs />
           </div>
 
           {/* Trust badges */}
@@ -122,14 +122,6 @@ export default function Home() {
               </span>
             ))}
           </div>
-          <p className="mt-5 text-center">
-            <Link
-              href="/hotels"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 px-4 py-2 rounded-full transition-colors"
-            >
-              🏨 Also searching hotels? Live rates →
-            </Link>
-          </p>
         </div>
       </section>
 
