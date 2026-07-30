@@ -99,7 +99,7 @@ function BookingCard({ booking }: { booking: CompletedBooking }) {
         </div>
 
         <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
-          <span>{formatDate(flight.departureTime)} · {passengers.length} pax · <span className="capitalize">{cabinClass}</span></span>
+          <span>{formatDate(flight.departureTime)} · {passengers.length} pas · <span className="capitalize">{cabinClass}</span></span>
           <span className="font-semibold text-gray-700">${totalPrice}</span>
         </div>
       </div>
