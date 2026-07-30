@@ -24,7 +24,19 @@ export default function Navbar() {
           </Link>
 
           {/* Right side */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Link
+              href="/"
+              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              Flights
+            </Link>
+            <Link
+              href="/hotels"
+              className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              Hotels
+            </Link>
             <Link
               href="/account"
               className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
@@ -49,7 +61,21 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="sm:hidden border-t border-gray-100 bg-white px-4 py-3">
+        <div className="sm:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-1">
+          <Link
+            href="/"
+            className="block py-2 text-sm font-medium text-gray-700"
+            onClick={() => setMobileOpen(false)}
+          >
+            Flights
+          </Link>
+          <Link
+            href="/hotels"
+            className="block py-2 text-sm font-medium text-gray-700"
+            onClick={() => setMobileOpen(false)}
+          >
+            Hotels
+          </Link>
           <Link
             href="/account"
             className="block py-2 text-sm font-medium text-gray-700"

@@ -76,6 +76,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3 text-sm">Support</h4>
             <ul className="space-y-2 text-sm">
+              <li><Link href="/hotels" className="hover:text-white transition-colors">Hotels</Link></li>
               <li><Link href="/account" className="hover:text-white transition-colors">My Trips</Link></li>
               <li><Link href="/help" className="hover:text-white transition-colors">Help Center</Link></li>
               <li><Link href="/baggage" className="hover:text-white transition-colors">Baggage Policy</Link></li>

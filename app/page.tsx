@@ -122,6 +122,14 @@ export default function Home() {
               </span>
             ))}
           </div>
+          <p className="mt-5 text-center">
+            <Link
+              href="/hotels"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 px-4 py-2 rounded-full transition-colors"
+            >
+              🏨 Also searching hotels? Live rates →
+            </Link>
+          </p>
         </div>
       </section>
 
