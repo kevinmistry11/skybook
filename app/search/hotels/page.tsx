@@ -21,6 +21,8 @@ export default async function HotelSearchPage({
   const checkIn = String(sp.checkIn || sp.check_in || '')
   const checkOut = String(sp.checkOut || sp.check_out || '')
   const adults = Math.min(8, Math.max(1, Number(sp.adults || '2') || 2))
+  const children = Math.min(6, Math.max(0, Number(sp.children || '0') || 0))
+  const rooms = Math.min(8, Math.max(1, Number(sp.rooms || '1') || 1))
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -40,13 +42,13 @@ export default async function HotelSearchPage({
           </div>
           <HotelSearchForm
             variant="inline"
-            defaults={{ q, checkIn, checkOut, adults }}
+            defaults={{ q, checkIn, checkOut, adults, children, rooms }}
           />
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <HotelResults q={q} checkIn={checkIn} checkOut={checkOut} adults={adults} />
+        <HotelResults q={q} checkIn={checkIn} checkOut={checkOut} adults={adults} childrenCount={children} rooms={rooms} />
       </div>
     </div>
   )

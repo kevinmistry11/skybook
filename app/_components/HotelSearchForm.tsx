@@ -22,6 +22,8 @@ interface Props {
     checkIn?: string
     checkOut?: string
     adults?: number
+    children?: number
+    rooms?: number
   }
   variant?: 'hero' | 'inline'
 }
@@ -33,6 +35,8 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
   const [checkIn, setCheckIn] = useState(defaults.checkIn || addDaysISO(minIn, 14))
   const [checkOut, setCheckOut] = useState(defaults.checkOut || addDaysISO(minIn, 17))
   const [adults, setAdults] = useState(defaults.adults || 2)
+  const [children, setChildren] = useState(defaults.children || 0)
+  const [rooms, setRooms] = useState(defaults.rooms || 1)
   const [error, setError] = useState('')
   const [open, setOpen] = useState(false)
   const destRef = useRef<HTMLDivElement>(null)
@@ -59,6 +63,8 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
       checkIn,
       checkOut,
       adults: String(adults),
+      children: String(children),
+      rooms: String(rooms),
     })
     router.push(`/search/hotels?${params.toString()}`)
   }
@@ -73,8 +79,8 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
 
   return (
     <form onSubmit={submit} className="w-full">
-      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
-        <div ref={destRef} className="relative sm:col-span-2 lg:col-span-2">
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-7">
+        <div ref={destRef} className="relative col-span-2 sm:col-span-3 lg:col-span-2">
           <label className={labelCls}>Destination</label>
           <input
             type="text"
@@ -150,15 +156,43 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
           />
         </div>
         <div>
-          <label className={labelCls}>Guests</label>
+          <label className={labelCls}>Adults</label>
           <select
             value={adults}
             onChange={e => setAdults(Number(e.target.value))}
             className={inputCls}
           >
-            {[1, 2, 3, 4, 5, 6].map(n => (
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
               <option key={n} value={n}>
-                {n} {n === 1 ? 'adult' : 'adults'}
+                {n}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className={labelCls}>Children</label>
+          <select
+            value={children}
+            onChange={e => setChildren(Number(e.target.value))}
+            className={inputCls}
+          >
+            {[0, 1, 2, 3, 4, 5, 6].map(n => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className={labelCls}>Rooms</label>
+          <select
+            value={rooms}
+            onChange={e => setRooms(Number(e.target.value))}
+            className={inputCls}
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+              <option key={n} value={n}>
+                {n}
               </option>
             ))}
           </select>

@@ -15,11 +15,13 @@ interface Props {
   checkIn: string
   checkOut: string
   adults: number
+  childrenCount?: number
+  rooms?: number
 }
 
 type Source = 'live' | 'sample' | 'loading' | 'error'
 
-export default function HotelResults({ q, checkIn, checkOut, adults }: Props) {
+export default function HotelResults({ q, checkIn, checkOut, adults, childrenCount = 0, rooms = 1 }: Props) {
   const [hotels, setHotels] = useState<Hotel[]>([])
   const [source, setSource] = useState<Source>('loading')
   const [notice, setNotice] = useState<string | null>(null)
@@ -41,6 +43,8 @@ export default function HotelResults({ q, checkIn, checkOut, adults }: Props) {
       checkIn,
       checkOut,
       adults: String(adults),
+      children: String(childrenCount),
+      rooms: String(rooms),
       sortBy,
     })
     if (minStars >= 2) params.set('minStars', String(minStars))
@@ -64,7 +68,7 @@ export default function HotelResults({ q, checkIn, checkOut, adults }: Props) {
     return () => {
       cancelled = true
     }
-  }, [q, checkIn, checkOut, adults, sortBy, minStars])
+  }, [q, checkIn, checkOut, adults, childrenCount, rooms, sortBy, minStars])
 
   const filtered = useMemo(() => {
     let list = hotels

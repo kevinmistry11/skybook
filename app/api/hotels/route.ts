@@ -140,6 +140,7 @@ export async function GET(req: NextRequest) {
   const checkOut = (sp.get('checkOut') || sp.get('check_out') || '').trim()
   const adults = Math.min(8, Math.max(1, Number(sp.get('adults') || '2') || 2))
   const children = Math.min(6, Math.max(0, Number(sp.get('children') || '0') || 0))
+  const rooms = Math.min(8, Math.max(1, Number(sp.get('rooms') || '1') || 1))
   const sortRaw = (sp.get('sortBy') || 'relevance').toLowerCase()
   const sortBy =
     sortRaw === 'price' || sortRaw === 'rating' ? (sortRaw as 'price' | 'rating') : 'relevance'
@@ -161,6 +162,7 @@ export async function GET(req: NextRequest) {
     checkOut,
     adults,
     children,
+    rooms,
     sortBy,
     minStars: minStars >= 2 ? minStars : undefined,
   }

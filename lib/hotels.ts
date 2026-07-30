@@ -28,6 +28,7 @@ export interface HotelSearchParams {
   checkOut: string
   adults: number
   children?: number
+  rooms?: number
   sortBy?: 'relevance' | 'price' | 'rating'
   minStars?: number
 }
