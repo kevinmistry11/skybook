@@ -16,8 +16,8 @@ export const SITE_DESCRIPTION =
  * Leave empty until the profile exists (empty entries are omitted).
  */
 export const SOCIAL_PROFILES: Record<string, string> = {
+  facebook: 'https://www.facebook.com/profile.php?id=61592781085459',
   // x: 'https://x.com/skybookfare',
-  // facebook: 'https://www.facebook.com/skybookfare',
   // linkedin: 'https://www.linkedin.com/company/skybookfare',
   // instagram: 'https://www.instagram.com/skybookfare',
 }
