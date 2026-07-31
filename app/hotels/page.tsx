@@ -4,7 +4,7 @@ import HotelSearchForm from '@/app/_components/HotelSearchForm'
 import { SITE_NAME, SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Hotels — Live rates & partner booking',
+  title: 'Hotels — Live rates, no booking fees',
   description:
     'Search hotels with live rates on SkyBookFare. Compare stays and review your booking on-site with no booking fees.',
   alternates: { canonical: `${SITE_URL}/hotels` },
