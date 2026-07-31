@@ -93,7 +93,6 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
     if (h.rating != null) p.set('rating', String(h.rating))
     if (h.reviews != null) p.set('reviews', String(h.reviews))
     if (h.freeCancellation) p.set('free', '1')
-    if (h.source) p.set('src', h.source)
     if (h.thumbnail) p.set('thumb', h.thumbnail)
     return `/hotels/summary?${p.toString()}`
   }
@@ -307,9 +306,6 @@ function HotelCard({
               )}
               {hotel.freeCancellation && (
                 <span className="text-green-700 font-semibold">Free cancellation</span>
-              )}
-              {hotel.source && (
-                <span className="text-gray-400">via {hotel.source}</span>
               )}
             </div>
 

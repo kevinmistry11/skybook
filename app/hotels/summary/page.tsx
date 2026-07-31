@@ -43,7 +43,6 @@ export default async function HotelSummaryPage({
   const rating = s('rating') ? Number(s('rating')) : null
   const reviews = s('reviews') ? Number(s('reviews')) : null
   const free = s('free') === '1'
-  const src = s('src')
   const thumb = s('thumb')
 
   const backParams = new URLSearchParams({
@@ -124,7 +123,6 @@ export default async function HotelSummaryPage({
                   </span>
                 )}
                 {free && <span className="text-green-700 font-semibold">Free cancellation</span>}
-                {src && <span className="text-gray-400">via {src}</span>}
               </div>
               <p className="text-sm text-gray-500 mt-3">{q}</p>
             </div>
