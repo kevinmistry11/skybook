@@ -1,10 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import {
   type Hotel,
-  bookHotelUrl,
-  buildKayakHotelsUrl,
   formatMoney,
   nightsBetween,
   sortHotels,
@@ -77,7 +76,27 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
     return sortHotels(list, sortBy)
   }, [hotels, freeCancelOnly, minStars, sortBy])
 
-  const kayakAll = buildKayakHotelsUrl({ q, checkIn, checkOut, adults })
+  function summaryHref(h: Hotel): string {
+    const p = new URLSearchParams({
+      name: h.name,
+      q,
+      checkIn,
+      checkOut,
+      nights: String(nights),
+      adults: String(adults),
+      children: String(childrenCount),
+      rooms: String(rooms),
+    })
+    if (h.pricePerNight != null) p.set('ppn', String(h.pricePerNight))
+    if (h.totalPrice != null) p.set('total', String(h.totalPrice))
+    if (h.stars != null) p.set('stars', String(h.stars))
+    if (h.rating != null) p.set('rating', String(h.rating))
+    if (h.reviews != null) p.set('reviews', String(h.reviews))
+    if (h.freeCancellation) p.set('free', '1')
+    if (h.source) p.set('src', h.source)
+    if (h.thumbnail) p.set('thumb', h.thumbnail)
+    return `/hotels/summary?${p.toString()}`
+  }
 
   if (!q || !checkIn || !checkOut) {
     return (
@@ -105,15 +124,6 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
             )}
           </p>
         </div>
-        <a
-          href={kayakAll}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-1.5 text-sm font-bold text-blue-700 bg-blue-50 border border-blue-100 px-4 py-2 rounded-xl hover:bg-blue-100 transition-colors"
-        >
-          Compare all on Kayak
-          <ExternalIcon />
-        </a>
       </div>
 
       {/* Filters */}
@@ -176,9 +186,8 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
         <div className="flex items-center gap-2 text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-xl px-3 py-2">
           <InfoIcon />
           <span>
-            Clicking <strong className="text-gray-600">Book on Kayak</strong> opens a partner site
-            to complete booking. SkyBookFare may earn a commission at no extra cost to you. Rates
-            can change until you pay on the partner site.
+            Select a hotel to <strong className="text-gray-600">review your booking details</strong>.
+            No payment is taken — checkout is coming soon.
           </span>
         </div>
       )}
@@ -194,33 +203,17 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
       {source === 'error' && (
         <div className="bg-white rounded-2xl border border-gray-200 p-14 text-center">
           <p className="font-semibold text-gray-700 mb-1">Couldn&apos;t load hotels</p>
-          <p className="text-gray-400 text-sm mb-4">{notice}</p>
-          <a
-            href={kayakAll}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm"
-          >
-            Search on Kayak <ExternalIcon />
-          </a>
+          <p className="text-gray-400 text-sm">{notice || 'Please try again in a moment, or adjust your dates.'}</p>
         </div>
       )}
 
       {source === 'unavailable' && (
         <div className="bg-white rounded-2xl border border-gray-200 p-14 text-center">
           <p className="text-3xl mb-3">🏨</p>
-          <p className="font-semibold text-gray-700 mb-1">Live rates aren&apos;t available right now</p>
-          <p className="text-gray-400 text-sm mb-4">
-            Continue your search on Kayak to see real-time prices for {q}.
+          <p className="font-semibold text-gray-700 mb-1">No live rates available right now</p>
+          <p className="text-gray-400 text-sm">
+            We couldn&apos;t find live rates for {q} on these dates. Try different dates or another nearby city.
           </p>
-          <a
-            href={kayakAll}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm"
-          >
-            Search on Kayak <ExternalIcon />
-          </a>
         </div>
       )}
 
@@ -242,7 +235,7 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
               key={h.id}
               hotel={h}
               nights={nights}
-              bookUrl={bookHotelUrl(h, { q, checkIn, checkOut, adults })}
+              summaryUrl={summaryHref(h)}
             />
           ))}
         </div>
@@ -254,11 +247,11 @@ export default function HotelResults({ q, checkIn, checkOut, adults, childrenCou
 function HotelCard({
   hotel,
   nights,
-  bookUrl,
+  summaryUrl,
 }: {
   hotel: Hotel
   nights: number
-  bookUrl: string
+  summaryUrl: string
 }) {
   const [imgFailed, setImgFailed] = useState(false)
 
@@ -353,26 +346,16 @@ function HotelCard({
                 <p className="text-sm font-semibold text-gray-500">See price on partner</p>
               )}
             </div>
-            <a
-              href={bookUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={summaryUrl}
               className="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold px-5 py-2 rounded-xl text-sm transition-colors w-full sm:w-auto shadow-sm"
             >
-              Book on Kayak <ExternalIcon />
-            </a>
+              Reserve
+            </Link>
           </div>
         </div>
       </div>
     </article>
-  )
-}
-
-function ExternalIcon() {
-  return (
-    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-    </svg>
   )
 }
 

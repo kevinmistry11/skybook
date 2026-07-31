@@ -75,6 +75,7 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
   function submit(e: React.FormEvent) {
     e.preventDefault()
     if (!q.trim()) return setError('Enter a city or hotel name.')
+    if (checkIn < minIn) return setError('Check-in can’t be in the past.')
     if (checkOut <= checkIn) return setError('Check-out must be after check-in.')
     setError('')
     const params = new URLSearchParams({
