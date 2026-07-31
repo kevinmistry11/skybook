@@ -77,6 +77,7 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
     if (!q.trim()) return setError('Enter a city or hotel name.')
     if (checkIn < minIn) return setError('Check-in can’t be in the past.')
     if (checkOut <= checkIn) return setError('Check-out must be after check-in.')
+    if (adults + children > 6) return setError('Up to 6 guests total (hotel provider limit).')
     setError('')
     const params = new URLSearchParams({
       q: q.trim(),
@@ -186,10 +187,14 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
           <label className={labelCls}>Adults</label>
           <select
             value={adults}
-            onChange={e => setAdults(Number(e.target.value))}
+            onChange={e => {
+              const n = Number(e.target.value)
+              setAdults(n)
+              if (children > 6 - n) setChildren(6 - n)
+            }}
             className={inputCls}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
+            {[1, 2, 3, 4, 5, 6].map(n => (
               <option key={n} value={n}>
                 {n}
               </option>
@@ -203,7 +208,7 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
             onChange={e => setChildren(Number(e.target.value))}
             className={inputCls}
           >
-            {[0, 1, 2, 3, 4, 5, 6].map(n => (
+            {Array.from({ length: 7 - adults }, (_, i) => i).map(n => (
               <option key={n} value={n}>
                 {n}
               </option>
@@ -234,7 +239,7 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
 
       <div className="mt-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <p className={`text-xs ${isHero ? 'text-white/60' : 'text-gray-400'}`}>
-          Live rates via Google Hotels · Book on Kayak or partner sites
+          Live rates via Google Hotels · Up to 6 guests · No booking fees
         </p>
         <button
           type="submit"

@@ -142,8 +142,8 @@ export async function GET(req: NextRequest) {
   const q = (sp.get('q') || sp.get('destination') || '').trim()
   const checkIn = (sp.get('checkIn') || sp.get('check_in') || '').trim()
   const checkOut = (sp.get('checkOut') || sp.get('check_out') || '').trim()
-  const adults = Math.min(8, Math.max(1, Number(sp.get('adults') || '2') || 2))
-  const children = Math.min(6, Math.max(0, Number(sp.get('children') || '0') || 0))
+  const adults = Math.min(6, Math.max(1, Number(sp.get('adults') || '2') || 2))
+  const children = Math.min(6 - adults, Math.max(0, Number(sp.get('children') || '0') || 0))
   const rooms = Math.min(8, Math.max(1, Number(sp.get('rooms') || '1') || 1))
   const sortRaw = (sp.get('sortBy') || 'relevance').toLowerCase()
   const sortBy =
@@ -185,13 +185,13 @@ export async function GET(req: NextRequest) {
     console.error('[hotels] live fetch failed', e)
   }
 
-  // No live rates available — do not fabricate listings. Hand off to Kayak.
+  // No live rates available — do not fabricate listings; show an empty state.
   return NextResponse.json({
     hotels: [],
     source: 'unavailable' as const,
     nights: nightsBetween(checkIn, checkOut),
     query: params,
     notice:
-      'Live hotel rates aren’t available right now. Continue your search on Kayak for real-time prices.',
+      'Live hotel rates aren’t available right now. Try different dates or another nearby city.',
   })
 }

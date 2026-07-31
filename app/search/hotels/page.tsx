@@ -6,7 +6,7 @@ import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Hotel search results',
-  description: 'Compare live hotel rates and book on Kayak or partner sites via SkyBookFare.',
+  description: 'Compare live hotel rates on SkyBookFare and review your stay — no booking fees.',
   alternates: { canonical: `${SITE_URL}/search/hotels` },
   robots: { index: false, follow: true },
 }
@@ -20,8 +20,8 @@ export default async function HotelSearchPage({
   const q = String(sp.q || sp.destination || '')
   const checkIn = String(sp.checkIn || sp.check_in || '')
   const checkOut = String(sp.checkOut || sp.check_out || '')
-  const adults = Math.min(8, Math.max(1, Number(sp.adults || '2') || 2))
-  const children = Math.min(6, Math.max(0, Number(sp.children || '0') || 0))
+  const adults = Math.min(6, Math.max(1, Number(sp.adults || '2') || 2))
+  const children = Math.min(6 - adults, Math.max(0, Number(sp.children || '0') || 0))
   const rooms = Math.min(8, Math.max(1, Number(sp.rooms || '1') || 1))
 
   return (

@@ -6,7 +6,7 @@ import { SITE_NAME, SITE_URL } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Hotels — Live rates & partner booking',
   description:
-    'Search hotels with live rates on SkyBookFare. Compare stays and book on Kayak or partner sites with no booking fees from us.',
+    'Search hotels with live rates on SkyBookFare. Compare stays and review your booking on-site with no booking fees.',
   alternates: { canonical: `${SITE_URL}/hotels` },
 }
 
@@ -52,14 +52,14 @@ export default function HotelsPage() {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16">
           <div className="text-center mb-8">
             <p className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 border border-white/20 uppercase tracking-widest">
-              🏨 Live hotel rates · Book on partners
+              🏨 Live hotel rates · No booking fees
             </p>
             <h1 className="text-3xl sm:text-5xl font-black text-white leading-tight mb-3 tracking-tight">
               Find hotels with live prices
             </h1>
             <p className="text-blue-100/90 text-base sm:text-lg max-w-2xl mx-auto">
-              Search stays on {SITE_NAME}, compare nightly rates, then complete booking on Kayak
-              or a partner site — we never charge booking fees.
+              Search stays on {SITE_NAME} and compare live nightly rates, then review your booking
+              details on-site — we never charge booking fees.
             </p>
           </div>
           <div className="bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl shadow-black/30 p-6 sm:p-8">
@@ -93,9 +93,9 @@ export default function HotelsPage() {
 
       <section className="max-w-3xl mx-auto px-4 pb-16 text-center">
         <p className="text-sm text-gray-500 leading-relaxed">
-          Rates are pulled from Google Hotels via our data partner when available. Final price is
-          confirmed on the booking partner (e.g. Kayak). {SITE_NAME} may earn a commission at no
-          extra cost to you.
+          Rates are pulled from Google Hotels via our data partner when available. Prices are shown
+          for review and may change; secure checkout is coming soon. {SITE_NAME} charges no booking
+          fees.
         </p>
         <Link href="/" className="inline-block mt-4 text-sm font-semibold text-blue-600 hover:underline">
           ← Back to flight search
