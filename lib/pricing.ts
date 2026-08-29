@@ -140,28 +140,38 @@ export interface PricedCabin {
  * Remap flights so listed economy prices are tax-inclusive and sit in a band
  * around targetTotal × legShare (1 = one-way, 0.5 each RT leg, 1/n multi-city).
  * Search cards and checkout then show the same number (Kayak-style).
+ *
+ * Featured itineraries are pinned near the exact share of `targetTotal`
+ * (e.g. CAK↔SFO RT ≈ $225) so they don't drift with ranking noise.
  */
 export function normalizeFlightEconomyPrices<T extends {
   id: string
   economy: PricedCabin
   business: PricedCabin
   first: PricedCabin
+  featured?: boolean
 }>(flights: T[], legShare = 1, targetTotal = TARGET_CHECKOUT_TOTAL): T[] {
   if (flights.length === 0) return flights
 
-  // Tax-inclusive center so RT out+ret ≈ targetTotal on the search card
-  const center = targetTotalPerAdult(flights[0]?.id ?? 'default', targetTotal) * legShare
+  // Stable tax-inclusive center (no extra seed drift) so RT out+ret ≈ targetTotal
+  const center = Math.round(targetTotal * legShare * 100) / 100
   const prices = flights.map(f => f.economy.price)
   const min = Math.min(...prices)
   const max = Math.max(...prices)
 
   return flights.map(f => {
-    let t = 0.5
-    if (max > min) t = (f.economy.price - min) / (max - min)
-    // Map rank into ~±6% band around center, plus tiny per-flight noise
-    const band = center * 0.06
-    const ranked = center - band + t * 2 * band
-    const economy = Math.round(ranked * priceNoise(f.id, 0.025) * 100) / 100
+    let economy: number
+    if (f.featured) {
+      // Pin featured (AA CAK↔SFO etc.) to ~exact share of the route target
+      economy = Math.round(center * priceNoise(f.id, 0.012) * 100) / 100
+    } else {
+      let t = 0.5
+      if (max > min) t = (f.economy.price - min) / (max - min)
+      // Other options stay near the same target (±5% band)
+      const band = center * 0.05
+      const ranked = center - band + t * 2 * band
+      economy = Math.round(ranked * priceNoise(f.id, 0.02) * 100) / 100
+    }
     const seatsE = f.economy.seatsLeft
     const seatsB = f.business.seatsLeft
     const seatsF = f.first.seatsLeft
