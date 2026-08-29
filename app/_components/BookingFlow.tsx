@@ -87,7 +87,7 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
       ? [flight, returnFlight]
       : [flight]
 
-  // Route target (e.g. CAK↔SFO ≈ $190 tax-in); otherwise default ~$345
+  // Route target (e.g. CAK↔SFO ≈ $250 tax-in); otherwise default ~$345
   const priceSeed = displayLegs.map(f => f.id).join('|')
   const routeTarget = isCakSfoTrip(displayLegs)
     ? checkoutTargetForRoute('CAK', 'SFO')
