@@ -87,30 +87,23 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
       ? [flight, returnFlight]
       : [flight]
 
-  // Route target (e.g. CAK↔SFO ≈ $225 tax-in); otherwise default ~$345
+  // Use the same tax-inclusive leg prices shown on search so totals match
   const priceSeed = displayLegs.map(f => f.id).join('|')
   const routeTarget = isCakSfoTrip(displayLegs)
     ? checkoutTargetForRoute('CAK', 'SFO')
     : checkoutTargetForRoute(flight.origin.code, flight.destination.code)
+  const rawLegPrices = displayLegs.map(f => getPriceForClass(f, cabinClass))
+  const listedTotalPerAdult = Math.round(rawLegPrices.reduce((s, p) => s + p, 0) * 100) / 100
   const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
     passengers: passengerCount,
     cabinClass,
     seatAddonCost,
     seed: priceSeed,
     targetTotal: routeTarget,
+    listedTotalPerAdult,
   })
-  const rawLegPrices = displayLegs.map(f => getPriceForClass(f, cabinClass))
-  const rawLegSum = rawLegPrices.reduce((s, p) => s + p, 0) || 1
-  const displayLegPrices = rawLegPrices.map((p, i) => {
-    if (i === rawLegPrices.length - 1) {
-      const allocated = displayLegs.slice(0, -1).reduce((s, _, j) => {
-        return s + Math.round((rawLegPrices[j] / rawLegSum) * (baseFare / passengerCount) * 100) / 100
-      }, 0)
-      return Math.round((baseFare / passengerCount - allocated) * 100) / 100
-    }
-    return Math.round((p / rawLegSum) * (baseFare / passengerCount) * 100) / 100
-  })
-  const legPriceById = Object.fromEntries(displayLegs.map((f, i) => [f.id, displayLegPrices[i]]))
+  // Keep per-leg amounts identical to search cards (tax-inclusive / person)
+  const legPriceById = Object.fromEntries(displayLegs.map((f, i) => [f.id, rawLegPrices[i]]))
 
   const seatMap: SeatRow[] = generateSeatMap(flight.id, cabinClass)
 
@@ -682,7 +675,7 @@ function FlightMini({ flight, cabinClass, label, displayPrice }: {
       </div>
       <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between text-[10px] text-gray-400">
         <span>{formatDate(flight.departureTime, AIRPORT_TZ[flight.origin.code])}</span>
-        <span className="font-medium text-gray-500">${formatPrice(price)} / person</span>
+        <span className="font-medium text-gray-500">${formatPrice(price)} / person incl. taxes</span>
       </div>
     </div>
   )

@@ -640,19 +640,19 @@ function FlightCard({ flight, cabinClass, passengers, onSelect, isCheapest, outb
             {outboundPrice !== undefined ? (
               <>
                 <p className="text-2xl font-black text-gray-900 tabular-nums">${formatPrice((outboundPrice + price) * passengers)}</p>
-                <p className="text-xs text-gray-400 mb-1.5">round trip total</p>
+                <p className="text-xs text-gray-400 mb-1.5">round trip · incl. taxes</p>
                 <p className="text-xs text-gray-500 mb-1.5">+${formatPrice(price * passengers)} this leg</p>
               </>
             ) : minReturnPrice !== undefined ? (
               <>
                 <p className="text-2xl font-black text-gray-900 tabular-nums">${formatPrice((price + minReturnPrice) * passengers)}</p>
-                <p className="text-xs text-gray-400 mb-1.5">round trip total</p>
+                <p className="text-xs text-gray-400 mb-1.5">round trip · incl. taxes</p>
                 <p className="text-xs text-gray-500 mb-1.5">outbound ${formatPrice(price * passengers)}</p>
               </>
             ) : (
               <>
                 <p className="text-2xl font-black text-gray-900 tabular-nums">${formatPrice(price * passengers)}</p>
-                <p className="text-xs text-gray-400 mb-1.5">{passengers > 1 ? 'total' : 'per person'}</p>
+                <p className="text-xs text-gray-400 mb-1.5">{passengers > 1 ? 'total · incl. taxes' : 'per person · incl. taxes'}</p>
               </>
             )}
             {classData.seatsLeft <= 5 && (

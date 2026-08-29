@@ -89,8 +89,9 @@ export const CABIN_MULT = {
 
 /**
  * Checkout totals for a trip.
- * Economy: tax-inclusive total ≈ route target ± spread (with cents), × passengers.
- * Business/first scale the same target by cabin mult.
+ * Prefer `listedTotalPerAdult` (sum of tax-inclusive fares shown on search) so
+ * payment matches the price the traveler already selected — Kayak-style.
+ * Otherwise fall back to the route target ± spread.
  * Seat add-ons are added on top.
  */
 export function computeCheckoutTotals(opts: {
@@ -101,6 +102,11 @@ export function computeCheckoutTotals(opts: {
   seed?: string
   /** Tax-inclusive economy target; defaults to TARGET_CHECKOUT_TOTAL */
   targetTotal?: number
+  /**
+   * Tax-inclusive per-adult total already shown on search (all legs, selected cabin).
+   * When set, checkout uses this exact figure (no second random target).
+   */
+  listedTotalPerAdult?: number
 }): { baseFare: number; taxes: number; totalPrice: number } {
   const {
     passengers,
@@ -108,12 +114,15 @@ export function computeCheckoutTotals(opts: {
     seatAddonCost = 0,
     seed = 'default',
     targetTotal = TARGET_CHECKOUT_TOTAL,
+    listedTotalPerAdult,
   } = opts
   const mult = CABIN_MULT[cabinClass]
 
-  // Desired tax-inclusive subtotal (before seats), with cabin mult applied to economy target
-  const economyTotal = Math.round(targetTotalPerAdult(seed, targetTotal) * passengers * 100) / 100
-  const desiredTotal = Math.round(economyTotal * mult * 100) / 100
+  // Desired tax-inclusive subtotal (before seats)
+  const desiredTotal =
+    listedTotalPerAdult != null
+      ? Math.round(listedTotalPerAdult * passengers * 100) / 100
+      : Math.round(targetTotalPerAdult(seed, targetTotal) * passengers * mult * 100) / 100
 
   // Split into base + tax that sum exactly to desiredTotal
   const baseFare = Math.round((desiredTotal / (1 + TAX_RATE)) * 100) / 100
@@ -128,11 +137,9 @@ export interface PricedCabin {
 }
 
 /**
- * Remap a list of flights so economy prices sit in a band around
- * targetBase × legShare (legShare=1 one-way, 0.5 each RT leg, 1/n multi-city).
- * Preserves relative ordering between flights.
- *
- * Pass `targetTotal` (tax-inclusive) to price a specific route (e.g. CAK↔SFO ≈ $225).
+ * Remap flights so listed economy prices are tax-inclusive and sit in a band
+ * around targetTotal × legShare (1 = one-way, 0.5 each RT leg, 1/n multi-city).
+ * Search cards and checkout then show the same number (Kayak-style).
  */
 export function normalizeFlightEconomyPrices<T extends {
   id: string
@@ -142,7 +149,8 @@ export function normalizeFlightEconomyPrices<T extends {
 }>(flights: T[], legShare = 1, targetTotal = TARGET_CHECKOUT_TOTAL): T[] {
   if (flights.length === 0) return flights
 
-  const center = targetBaseFare(1, flights[0]?.id ?? 'default', targetTotal) * legShare
+  // Tax-inclusive center so RT out+ret ≈ targetTotal on the search card
+  const center = targetTotalPerAdult(flights[0]?.id ?? 'default', targetTotal) * legShare
   const prices = flights.map(f => f.economy.price)
   const min = Math.min(...prices)
   const max = Math.max(...prices)
