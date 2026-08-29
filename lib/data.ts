@@ -39,6 +39,10 @@ export interface Flight {
   economy: FlightClass
   business: FlightClass
   first: FlightClass
+  /** Curated itinerary — keep at top of search results */
+  featured?: boolean
+  layoverMin?: number
+  connectionDetail?: string
 }
 
 export interface Passenger {
@@ -460,15 +464,21 @@ export function generateFlights(from: string, to: string, date: string): Flight[
         aircraft:       sf.ac,
         carryOnIncluded:baggage.carryOnIncluded,
         checkedBagPrice:baggage.checkedBagPrice,
+        featured:       sf.featured,
+        layoverMin:     sf.layoverMin,
+        connectionDetail: sf.connectionDetail,
         economy:  { price: economyPrice,                                  seatsLeft },
         business: { price: Math.round(economyPrice * 2.8 * 100) / 100,    seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.3)) },
         first:    { price: Math.round(economyPrice * 5.5 * 100) / 100,    seatsLeft: Math.max(1, Math.floor(seatsLeft * 0.12)) },
       } as Flight
     })
-    // Band economy around target one-way base (checkout ~$345-ish with cents);
-    // SearchResults re-normalizes RT legs to half-share for a similar RT total.
+    // Band economy around target one-way base; SearchResults re-normalizes per route.
+    // Featured curated itineraries stay first, then by departure time.
     return normalizeFlightEconomyPrices(flights, 1)
-      .sort((a, b) => new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime())
+      .sort((a, b) => {
+        if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1
+        return new Date(a.departureTime).getTime() - new Date(b.departureTime).getTime()
+      })
   }
 
   // ── Fallback: haversine-based random generation for unlisted routes ────

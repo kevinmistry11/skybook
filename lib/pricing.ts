@@ -10,8 +10,8 @@ export const TAX_RATE = 0.14
 
 /** Per-route tax-inclusive economy targets (overrides the default). */
 const ROUTE_CHECKOUT_TOTAL: Record<string, number> = {
-  'CAK-SFO': 250,
-  'SFO-CAK': 250,
+  'CAK-SFO': 225,
+  'SFO-CAK': 225,
 }
 
 /** Resolve the tax-inclusive economy target for a city pair (or default). */
@@ -132,7 +132,7 @@ export interface PricedCabin {
  * targetBase × legShare (legShare=1 one-way, 0.5 each RT leg, 1/n multi-city).
  * Preserves relative ordering between flights.
  *
- * Pass `targetTotal` (tax-inclusive) to price a specific route (e.g. CAK↔SFO ≈ $250).
+ * Pass `targetTotal` (tax-inclusive) to price a specific route (e.g. CAK↔SFO ≈ $225).
  */
 export function normalizeFlightEconomyPrices<T extends {
   id: string

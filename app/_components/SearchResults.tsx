@@ -167,6 +167,8 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
 
   const sortFlights = useCallback((flights: Flight[]): Flight[] =>
     [...flights].sort((a, b) => {
+      // Keep curated featured itineraries (e.g. AA CAK↔SFO) at the top
+      if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1
       const pa = getPriceForClass(a, cabinClass), pb = getPriceForClass(b, cabinClass)
       if (sort === 'cheapest') return pa - pb
       if (sort === 'fastest')  return a.durationMinutes - b.durationMinutes
@@ -593,7 +595,7 @@ function FlightCard({ flight, cabinClass, passengers, onSelect, isCheapest, outb
                 <p className="text-xs text-center mt-1 font-medium">
                   {flight.stops === 0
                     ? <span className="text-green-600">Nonstop</span>
-                    : <span className="text-gray-500">{flight.stops} stop{flight.stops > 1 ? 's' : ''}{flight.stopCity ? ` · ${flight.stopCity}` : ''}</span>}
+                    : <span className="text-gray-500">{flight.stops} stop{flight.stops > 1 ? 's' : ''}{flight.stopCity ? ` · ${flight.stopCity}` : ''}{flight.featured ? ' · Featured' : ''}</span>}
                 </p>
               </div>
 
@@ -718,12 +720,20 @@ function FlightCard({ flight, cabinClass, passengers, onSelect, isCheapest, outb
 
           {/* Layover info */}
           {flight.stops > 0 && flight.stopCity && (
-            <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-xs text-amber-800">
-              <span>🔄</span>
-              <span>
-                <span className="font-semibold">Connection in {flight.stopCity}</span>
-                {' · '}Layover approx. {formatDuration(Math.round(flight.durationMinutes * 0.22))}
-              </span>
+            <div className="flex flex-col gap-1.5 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-xs text-amber-800">
+              <div className="flex items-center gap-2">
+                <span>🔄</span>
+                <span>
+                  <span className="font-semibold">Connection in {flight.stopCity}</span>
+                  {' · '}Layover{' '}
+                  {flight.layoverMin != null
+                    ? formatDuration(flight.layoverMin)
+                    : <>approx. {formatDuration(Math.round(flight.durationMinutes * 0.22))}</>}
+                </span>
+              </div>
+              {flight.connectionDetail && (
+                <p className="text-amber-900/80 leading-relaxed pl-6">{flight.connectionDetail}</p>
+              )}
             </div>
           )}
         </div>

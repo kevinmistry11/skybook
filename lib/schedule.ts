@@ -14,6 +14,12 @@ export interface ScheduledFlight {
   days?: number[]  // days of week (0=Sun…6=Sat); omit = daily
   /** Optional display label for multi-leg itineraries (e.g. "AA 5175 / AA 3049") */
   label?: string
+  /** Pin to top of search results */
+  featured?: boolean
+  /** Exact layover minutes at via (for connection detail UI) */
+  layoverMin?: number
+  /** Human-readable connection breakdown shown in flight details */
+  connectionDetail?: string
 }
 
 // Keyed "ORIGIN-DEST" — all times are local departure at origin
@@ -725,19 +731,23 @@ const S: Record<string, ScheduledFlight[]> = {
     // Sat: AA 5175 CAK 6:26a ET→ORD 7:21a ET (1h55), 2h24m layover,
     //      AA 3049 ORD 9:45a CT→SFO 12:41p PT (4h56). Door-to-door 9h15m.
     { code: 'AA', num: 5175, label: 'AA 5175 / AA 3049', dep: '06:26', dur: 555,
-      ac: 'CRJ-700 / Boeing 737-800', fare: 99, stops: 1, via: 'ORD', days:[6] },
-    { code: 'UA', num: 5213, dep: '06:40', dur: 430, ac: 'Embraer E175',     fare: 105, stops: 1, via: 'ORD' },
-    { code: 'UA', num: 5584, dep: '13:15', dur: 455, ac: 'CRJ-550',          fare: 109, stops: 1, via: 'ORD' },
-    { code: 'AA', num: 2351, dep: '07:10', dur: 470, ac: 'CRJ-900',          fare: 112, stops: 1, via: 'CLT' },
+      ac: 'CRJ-700 / Boeing 737-800', fare: 110, stops: 1, via: 'ORD', days:[6],
+      featured: true, layoverMin: 144,
+      connectionDetail: 'AA 5175 CAK 6:26a→ORD 7:21a (1h 55m) · 2h 24m layover in ORD · AA 3049 ORD 9:45a→SFO 12:41p (4h 56m)' },
+    { code: 'UA', num: 5213, dep: '06:40', dur: 430, ac: 'Embraer E175',     fare: 115, stops: 1, via: 'ORD' },
+    { code: 'UA', num: 5584, dep: '13:15', dur: 455, ac: 'CRJ-550',          fare: 118, stops: 1, via: 'ORD' },
+    { code: 'AA', num: 2351, dep: '07:10', dur: 470, ac: 'CRJ-900',          fare: 120, stops: 1, via: 'CLT' },
   ],
   'SFO-CAK': [
     // Tue: AA 1253 SFO 10:34a PT→ORD 5:05p CT (4h31), 1h40m layover,
     //      AA 5242 ORD 6:45p CT→CAK 9:25p ET (1h40). Door-to-door 7h51m.
     { code: 'AA', num: 1253, label: 'AA 1253 / AA 5242', dep: '10:34', dur: 471,
-      ac: 'Boeing 737-800 / CRJ-700', fare: 99, stops: 1, via: 'ORD', days:[2] },
-    { code: 'UA', num: 5214, dep: '08:55', dur: 400, ac: 'Embraer E175',     fare: 105, stops: 1, via: 'ORD' },
-    { code: 'UA', num: 5585, dep: '15:40', dur: 420, ac: 'CRJ-550',          fare: 109, stops: 1, via: 'ORD' },
-    { code: 'AA', num: 2352, dep: '10:20', dur: 440, ac: 'CRJ-900',          fare: 112, stops: 1, via: 'CLT' },
+      ac: 'Boeing 737-800 / CRJ-700', fare: 110, stops: 1, via: 'ORD', days:[2],
+      featured: true, layoverMin: 100,
+      connectionDetail: 'AA 1253 SFO 10:34a→ORD 5:05p (4h 31m) · 1h 40m layover in ORD · AA 5242 ORD 6:45p→CAK 9:25p (1h 40m)' },
+    { code: 'UA', num: 5214, dep: '08:55', dur: 400, ac: 'Embraer E175',     fare: 115, stops: 1, via: 'ORD' },
+    { code: 'UA', num: 5585, dep: '15:40', dur: 420, ac: 'CRJ-550',          fare: 118, stops: 1, via: 'ORD' },
+    { code: 'AA', num: 2352, dep: '10:20', dur: 440, ac: 'CRJ-900',          fare: 120, stops: 1, via: 'CLT' },
   ],
 }
 
