@@ -1,12 +1,38 @@
 /**
- * Demo pricing: economy checkouts land near TARGET_CHECKOUT_TOTAL with
- * realistic cents (not a round $345.00). Taxes are ~14% of base so
+ * Demo pricing: economy checkouts land near a route target with
+ * realistic cents (not a round dollar). Taxes are ~14% of base so
  * base + tax (+ seats) always add up.
  */
 
-/** Typical 1-adult economy total (pre-seats), with cents so it looks natural. */
+/** Default 1-adult economy total (pre-seats), with cents so it looks natural. */
 export const TARGET_CHECKOUT_TOTAL = 345
 export const TAX_RATE = 0.14
+
+/** Per-route tax-inclusive economy targets (overrides the default). */
+const ROUTE_CHECKOUT_TOTAL: Record<string, number> = {
+  'CAK-SFO': 190,
+  'SFO-CAK': 190,
+}
+
+/** Resolve the tax-inclusive economy target for a city pair (or default). */
+export function checkoutTargetForRoute(origin?: string, destination?: string): number {
+  if (origin && destination) {
+    const hit = ROUTE_CHECKOUT_TOTAL[`${origin}-${destination}`]
+    if (hit != null) return hit
+  }
+  return TARGET_CHECKOUT_TOTAL
+}
+
+/** True when the trip (any leg) is a CAK↔SFO itinerary. */
+export function isCakSfoTrip(
+  legs: { origin: { code: string }; destination: { code: string } }[],
+): boolean {
+  return legs.some(l => {
+    const a = l.origin.code
+    const b = l.destination.code
+    return (a === 'CAK' && b === 'SFO') || (a === 'SFO' && b === 'CAK')
+  })
+}
 
 /** ± dollar band around the target for per-itinerary variance. */
 const TOTAL_SPREAD = 16
@@ -24,22 +50,27 @@ export function priceNoise(seed: string, spread = 0.05): number {
 }
 
 /**
- * Per-adult tax-inclusive total with cents, centered near TARGET_CHECKOUT_TOTAL.
+ * Per-adult tax-inclusive total with cents, centered near `targetTotal`.
  * Same seed always yields the same total (stable across refreshes).
  */
-export function targetTotalPerAdult(seed = 'default'): number {
+export function targetTotalPerAdult(seed = 'default', targetTotal = TARGET_CHECKOUT_TOTAL): number {
   const h = hashSeed(seed)
   // Offset in cents: roughly -TOTAL_SPREAD .. +TOTAL_SPREAD, never lands on .00 alone
-  const centOffset = (h % (TOTAL_SPREAD * 200 + 1)) - TOTAL_SPREAD * 100
+  const spread = targetTotal <= 220 ? 10 : TOTAL_SPREAD
+  const centOffset = (h % (spread * 200 + 1)) - spread * 100
   // Force non-zero cents: prefer .x0–.x9 variety (e.g. .80, .47, .13)
-  let cents = Math.round(TARGET_CHECKOUT_TOTAL * 100 + centOffset)
+  let cents = Math.round(targetTotal * 100 + centOffset)
   if (cents % 100 === 0) cents += 80 // bump exact dollars to .80
   return Math.round(cents) / 100
 }
 
 /** Base fare (pre-tax) so base + tax ≈ target total per adult × passengers. */
-export function targetBaseFare(passengers = 1, seed = 'default'): number {
-  const total = targetTotalPerAdult(seed) * passengers
+export function targetBaseFare(
+  passengers = 1,
+  seed = 'default',
+  targetTotal = TARGET_CHECKOUT_TOTAL,
+): number {
+  const total = targetTotalPerAdult(seed, targetTotal) * passengers
   return Math.round((total / (1 + TAX_RATE)) * 100) / 100
 }
 
@@ -58,7 +89,7 @@ export const CABIN_MULT = {
 
 /**
  * Checkout totals for a trip.
- * Economy: tax-inclusive total ≈ $345 ± spread (with cents), × passengers.
+ * Economy: tax-inclusive total ≈ route target ± spread (with cents), × passengers.
  * Business/first scale the same target by cabin mult.
  * Seat add-ons are added on top.
  */
@@ -68,12 +99,20 @@ export function computeCheckoutTotals(opts: {
   seatAddonCost?: number
   /** Itinerary seed (flight ids) so totals vary realistically per trip */
   seed?: string
+  /** Tax-inclusive economy target; defaults to TARGET_CHECKOUT_TOTAL */
+  targetTotal?: number
 }): { baseFare: number; taxes: number; totalPrice: number } {
-  const { passengers, cabinClass, seatAddonCost = 0, seed = 'default' } = opts
+  const {
+    passengers,
+    cabinClass,
+    seatAddonCost = 0,
+    seed = 'default',
+    targetTotal = TARGET_CHECKOUT_TOTAL,
+  } = opts
   const mult = CABIN_MULT[cabinClass]
 
   // Desired tax-inclusive subtotal (before seats), with cabin mult applied to economy target
-  const economyTotal = Math.round(targetTotalPerAdult(seed) * passengers * 100) / 100
+  const economyTotal = Math.round(targetTotalPerAdult(seed, targetTotal) * passengers * 100) / 100
   const desiredTotal = Math.round(economyTotal * mult * 100) / 100
 
   // Split into base + tax that sum exactly to desiredTotal
@@ -92,16 +131,18 @@ export interface PricedCabin {
  * Remap a list of flights so economy prices sit in a band around
  * targetBase × legShare (legShare=1 one-way, 0.5 each RT leg, 1/n multi-city).
  * Preserves relative ordering between flights.
+ *
+ * Pass `targetTotal` (tax-inclusive) to price a specific route (e.g. CAK↔SFO ≈ $190).
  */
 export function normalizeFlightEconomyPrices<T extends {
   id: string
   economy: PricedCabin
   business: PricedCabin
   first: PricedCabin
-}>(flights: T[], legShare = 1): T[] {
+}>(flights: T[], legShare = 1, targetTotal = TARGET_CHECKOUT_TOTAL): T[] {
   if (flights.length === 0) return flights
 
-  const center = targetBaseFare(1, flights[0]?.id ?? 'default') * legShare
+  const center = targetBaseFare(1, flights[0]?.id ?? 'default', targetTotal) * legShare
   const prices = flights.map(f => f.economy.price)
   const min = Math.min(...prices)
   const max = Math.max(...prices)

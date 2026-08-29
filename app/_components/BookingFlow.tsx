@@ -19,7 +19,7 @@ import {
   generatePNR,
 } from '@/lib/data'
 import { getPendingBooking, addBooking } from '@/lib/store'
-import { computeCheckoutTotals } from '@/lib/pricing'
+import { checkoutTargetForRoute, computeCheckoutTotals, isCakSfoTrip } from '@/lib/pricing'
 
 export default function BookingFlow({ flightId }: { flightId: string }) {
   const router = useRouter()
@@ -87,13 +87,17 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
       ? [flight, returnFlight]
       : [flight]
 
-  // ~$345-ish with cents, varies slightly by itinerary (not a flat round number)
+  // Route target (e.g. CAK↔SFO ≈ $190 tax-in); otherwise default ~$345
   const priceSeed = displayLegs.map(f => f.id).join('|')
+  const routeTarget = isCakSfoTrip(displayLegs)
+    ? checkoutTargetForRoute('CAK', 'SFO')
+    : checkoutTargetForRoute(flight.origin.code, flight.destination.code)
   const { baseFare, taxes, totalPrice } = computeCheckoutTotals({
     passengers: passengerCount,
     cabinClass,
     seatAddonCost,
     seed: priceSeed,
+    targetTotal: routeTarget,
   })
   const rawLegPrices = displayLegs.map(f => getPriceForClass(f, cabinClass))
   const rawLegSum = rawLegPrices.reduce((s, p) => s + p, 0) || 1
