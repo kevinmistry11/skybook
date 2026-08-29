@@ -448,7 +448,7 @@ export function generateFlights(from: string, to: string, date: string): Flight[
 
       return {
         id:             `sched-${from}-${to}-${date}-${sf.code}${sf.num}`,
-        flightNumber:   `${sf.code} ${sf.num}`,
+        flightNumber:   sf.label ?? `${sf.code} ${sf.num}`,
         airline,
         origin:         fromAirport,
         destination:    toAirport,
@@ -552,9 +552,10 @@ const FARE_NAMES: Record<string, { economy: string; business: string; first: str
 
 /** Demo / published itineraries sold as Basic Economy only. */
 const BASIC_ECONOMY_FLIGHTS = new Set([
-  'UA 2097', 'UA 234',       // SFO↔CLE
-  'AA 5175', 'AA 1253',      // CAK↔SFO via ORD (connecting itinerary labels)
-  'AA 3049', 'AA 5242',      // second legs of the same AA connection
+  'UA 2097', 'UA 234',                 // SFO↔CLE
+  'AA 5175 / AA 3049',                 // CAK→SFO via ORD
+  'AA 1253 / AA 5242',                 // SFO→CAK via ORD
+  'AA 5175', 'AA 3049', 'AA 1253', 'AA 5242',
 ])
 
 export function fareName(

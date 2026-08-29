@@ -6,12 +6,14 @@ export interface ScheduledFlight {
   code: string     // IATA airline code
   num: number      // flight number
   dep: string      // "HH:MM" local departure (24h)
-  dur: number      // duration in minutes
+  dur: number      // duration in minutes (door-to-door for connections)
   ac: string       // aircraft display name
   fare: number     // economy base fare (USD) at 60+ days out
   stops?: 0 | 1    // 0 = nonstop (default)
   via?: string     // connecting airport code
   days?: number[]  // days of week (0=Sun…6=Sat); omit = daily
+  /** Optional display label for multi-leg itineraries (e.g. "AA 5175 / AA 3049") */
+  label?: string
 }
 
 // Keyed "ORIGIN-DEST" — all times are local departure at origin
@@ -720,17 +722,19 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'UA', num: 4699, dep: '12:45', dur: 395, ac: 'Embraer E175',     fare: 179, stops: 1, via: 'ORD' },
   ],
   'CAK-SFO': [
-    // Sat Nov 7–style: AA 5175 CAK 6:26a→ORD 7:21a, 2h24m sit, AA 3049 ORD 9:45a→SFO 12:41p
-    // Door-to-door 9h15m (local times; ET→PT). Shown as AA 5175 Basic Economy.
-    { code: 'AA', num: 5175, dep: '06:26', dur: 555, ac: 'CRJ-700 / Boeing 737-800', fare: 189, stops: 1, via: 'ORD', days:[6] },
+    // Sat: AA 5175 CAK 6:26a ET→ORD 7:21a ET (1h55), 2h24m layover,
+    //      AA 3049 ORD 9:45a CT→SFO 12:41p PT (4h56). Door-to-door 9h15m.
+    { code: 'AA', num: 5175, label: 'AA 5175 / AA 3049', dep: '06:26', dur: 555,
+      ac: 'CRJ-700 / Boeing 737-800', fare: 189, stops: 1, via: 'ORD', days:[6] },
     { code: 'UA', num: 5213, dep: '06:40', dur: 430, ac: 'Embraer E175',     fare: 199, stops: 1, via: 'ORD' },
     { code: 'UA', num: 5584, dep: '13:15', dur: 455, ac: 'CRJ-550',          fare: 209, stops: 1, via: 'ORD' },
     { code: 'AA', num: 2351, dep: '07:10', dur: 470, ac: 'CRJ-900',          fare: 215, stops: 1, via: 'CLT' },
   ],
   'SFO-CAK': [
-    // Tue Nov 10–style: AA 1253 SFO 10:34a→ORD 5:05p, 1h40m sit, AA 5242 ORD 6:45p→CAK 9:25p
-    // Door-to-door 7h51m (local times; PT→ET). Shown as AA 1253 Basic Economy.
-    { code: 'AA', num: 1253, dep: '10:34', dur: 471, ac: 'Boeing 737-800 / CRJ-700', fare: 189, stops: 1, via: 'ORD', days:[2] },
+    // Tue: AA 1253 SFO 10:34a PT→ORD 5:05p CT (4h31), 1h40m layover,
+    //      AA 5242 ORD 6:45p CT→CAK 9:25p ET (1h40). Door-to-door 7h51m.
+    { code: 'AA', num: 1253, label: 'AA 1253 / AA 5242', dep: '10:34', dur: 471,
+      ac: 'Boeing 737-800 / CRJ-700', fare: 189, stops: 1, via: 'ORD', days:[2] },
     { code: 'UA', num: 5214, dep: '08:55', dur: 400, ac: 'Embraer E175',     fare: 199, stops: 1, via: 'ORD' },
     { code: 'UA', num: 5585, dep: '15:40', dur: 420, ac: 'CRJ-550',          fare: 209, stops: 1, via: 'ORD' },
     { code: 'AA', num: 2352, dep: '10:20', dur: 440, ac: 'CRJ-900',          fare: 215, stops: 1, via: 'CLT' },

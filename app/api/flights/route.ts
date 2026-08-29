@@ -269,24 +269,39 @@ export async function GET(req: NextRequest) {
 
   // Always load local schedule flights for this route/date
   const localFlights: Flight[] = generateFlights(from, to, date)
+  // Curated rows in lib/schedule.ts — when present, their times win over live APIs
+  const hasCuratedSchedule = (getScheduledFlights(from, to, date)?.length ?? 0) > 0
+
+  function mergeLive(live: Flight[]): Flight[] {
+    if (hasCuratedSchedule) {
+      // Prefer exact local times/durations; only append live results we don't already have
+      const localNums = new Set(localFlights.map(f => f.flightNumber))
+      // Also treat "AA 5175 / AA 3049" as covering a live "AA 5175"
+      const localPrimary = new Set(
+        localFlights.map(f => f.flightNumber.split(' / ')[0].trim())
+      )
+      const extra = live.filter(f => {
+        if (localNums.has(f.flightNumber)) return false
+        if (localPrimary.has(f.flightNumber)) return false
+        return true
+      })
+      return [...localFlights, ...extra]
+    }
+    // No curated schedule: live first, then any local/generated fillers
+    const liveNums = new Set(live.map(f => f.flightNumber))
+    return [...live, ...localFlights.filter(f => !liveNums.has(f.flightNumber))]
+  }
 
   // 1. Try SerpAPI — merge with local so user sees full list
   const serpFlights = await fetchFromSerpAPI(from, to, date, passengers)
   if (serpFlights && serpFlights.length > 0) {
-    // Deduplicate: keep serp flights, add local flights whose flight number
-    // doesn't already appear in the serp results
-    const serpNums = new Set(serpFlights.map(f => f.flightNumber))
-    const extra    = localFlights.filter(f => !serpNums.has(f.flightNumber))
-    const merged   = [...serpFlights, ...extra]
-    return NextResponse.json({ flights: merged, source: 'live' })
+    return NextResponse.json({ flights: mergeLive(serpFlights), source: 'live' })
   }
 
   // 2. Try Amadeus (test environment fallback)
   const amFlights = await fetchFromAmadeus(from, to, date, passengers, cabinClass)
   if (amFlights && amFlights.length > 0) {
-    const amNums = new Set(amFlights.map(f => f.flightNumber))
-    const extra  = localFlights.filter(f => !amNums.has(f.flightNumber))
-    return NextResponse.json({ flights: [...amFlights, ...extra], source: 'live' })
+    return NextResponse.json({ flights: mergeLive(amFlights), source: 'live' })
   }
 
   // 3. Use local schedule/generated data
