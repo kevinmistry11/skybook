@@ -166,9 +166,13 @@ export default function HotelSearchForm({ defaults = {}, variant = 'hero' }: Pro
             type="date"
             min={minIn}
             value={checkIn}
-            onChange={e => {
-              setCheckIn(e.target.value)
-              if (checkOut <= e.target.value) setCheckOut(addDaysISO(e.target.value, 1))
+            onChange={e => setCheckIn(e.target.value)}
+            onBlur={e => {
+              const next = e.target.value
+              if (!next) return
+              // Adjust checkout only after the picker closes, so changing
+              // months inside the calendar doesn't remount / snap the UI.
+              if (checkOut <= next) setCheckOut(addDaysISO(next, 1))
             }}
             className={inputCls}
           />

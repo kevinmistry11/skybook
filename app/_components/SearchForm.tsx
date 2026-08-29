@@ -160,7 +160,7 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
                   <div className="flex-1">
                     <label className={labelCls}>Date</label>
                     <input type="date" value={leg.date} min={today}
-                      onChange={e => { updateLeg(idx, 'date', e.target.value); e.target.blur() }} className={inputCls} />
+                      onChange={e => updateLeg(idx, 'date', e.target.value)} className={inputCls} />
                   </div>
                   {legs.length > 2 && (
                     <button type="button" onClick={() => removeLeg(idx)}
@@ -229,14 +229,14 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
             {/* Depart */}
             <div>
               <label className={labelCls}>Depart</label>
-              <input type="date" value={date} min={today} onChange={e => { setDate(e.target.value); e.target.blur() }} className={inputCls} />
+              <input type="date" value={date} min={today} onChange={e => setDate(e.target.value)} className={inputCls} />
             </div>
 
             {/* Return or second Passengers slot */}
             {tripType === 'roundTrip' ? (
               <div>
                 <label className={labelCls}>Return</label>
-                <input type="date" value={returnDate} min={date || today} onChange={e => { setReturnDate(e.target.value); e.target.blur() }} className={inputCls} />
+                <input type="date" value={returnDate} min={date || today} onChange={e => setReturnDate(e.target.value)} className={inputCls} />
               </div>
             ) : (
               <div>
@@ -306,7 +306,7 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
               <div>
                 <label className={labelCls}>Date</label>
                 <input type="date" value={leg.date} min={today}
-                  onChange={e => { updateLeg(idx, 'date', e.target.value); e.target.blur() }} className={inputCls} />
+                  onChange={e => updateLeg(idx, 'date', e.target.value)} className={inputCls} />
               </div>
               {legs.length > 2 ? (
                 <button type="button" onClick={() => removeLeg(idx)}
@@ -339,13 +339,13 @@ export default function SearchForm({ compact = false, defaultValues = {} }: Sear
 
           <div>
             <label className={labelCls}>Depart</label>
-            <input type="date" value={date} min={today} onChange={e => { setDate(e.target.value); e.target.blur() }} className={inputCls} />
+            <input type="date" value={date} min={today} onChange={e => setDate(e.target.value)} className={inputCls} />
           </div>
 
           {tripType === 'roundTrip' && (
             <div>
               <label className={labelCls}>Return</label>
-              <input type="date" value={returnDate} min={date || today} onChange={e => { setReturnDate(e.target.value); e.target.blur() }} className={inputCls} />
+              <input type="date" value={returnDate} min={date || today} onChange={e => setReturnDate(e.target.value)} className={inputCls} />
             </div>
           )}
 
