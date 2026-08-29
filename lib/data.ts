@@ -550,8 +550,12 @@ const FARE_NAMES: Record<string, { economy: string; business: string; first: str
   F9: { economy: 'Economy',        business: 'Stretch',           first: 'Stretch'         },
 }
 
-/** SFO↔CLE demo itinerary sold as Basic Economy only. */
-const BASIC_ECONOMY_FLIGHTS = new Set(['UA 2097', 'UA 234'])
+/** Demo / published itineraries sold as Basic Economy only. */
+const BASIC_ECONOMY_FLIGHTS = new Set([
+  'UA 2097', 'UA 234',       // SFO↔CLE
+  'AA 5175', 'AA 1253',      // CAK↔SFO via ORD (connecting itinerary labels)
+  'AA 3049', 'AA 5242',      // second legs of the same AA connection
+])
 
 export function fareName(
   airlineCode: string,

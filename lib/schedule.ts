@@ -640,6 +640,8 @@ const S: Record<string, ScheduledFlight[]> = {
   // ── Akron-Canton (CAK) — popular nonstops + connecting long-hauls ─────────
   // Real CAK service is primarily AA (CLT/ORD/DCA), UA (ORD), plus leisure LCCs.
   'CAK-ORD': [
+    // First leg of CAK→SFO connection (AA 5175 / AA 3049)
+    { code: 'AA', num: 5175, dep: '06:26', dur: 115, ac: 'CRJ-700',          fare: 119, days:[6] },
     { code: 'AA', num: 3545, dep: '07:14', dur: 110, ac: 'Embraer E175',     fare: 119 },
     { code: 'AA', num: 3915, dep: '11:30', dur: 112, ac: 'Embraer E175',     fare: 129 },
     { code: 'AA', num: 3436, dep: '16:45', dur: 110, ac: 'CRJ-700',          fare: 139 },
@@ -647,6 +649,8 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'UA', num: 4752, dep: '13:20', dur: 113, ac: 'CRJ-550',          fare: 135 },
   ],
   'ORD-CAK': [
+    // Second leg of SFO→CAK connection (AA 1253 / AA 5242)
+    { code: 'AA', num: 5242, dep: '18:45', dur: 100, ac: 'CRJ-700',          fare: 119, days:[2] },
     { code: 'AA', num: 3546, dep: '09:40', dur: 105, ac: 'Embraer E175',     fare: 119 },
     { code: 'AA', num: 3916, dep: '14:05', dur: 107, ac: 'Embraer E175',     fare: 129 },
     { code: 'AA', num: 3437, dep: '19:15', dur: 105, ac: 'CRJ-700',          fare: 139 },
@@ -654,13 +658,13 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'UA', num: 4753, dep: '16:00', dur: 110, ac: 'CRJ-550',          fare: 135 },
   ],
   'CAK-CLT': [
-    { code: 'AA', num: 5175, dep: '06:35', dur: 110, ac: 'CRJ-900',          fare: 129 },
+    { code: 'AA', num: 5181, dep: '06:35', dur: 110, ac: 'CRJ-900',          fare: 129 },
     { code: 'AA', num: 3841, dep: '09:14', dur: 108, ac: 'Embraer E175',     fare: 139 },
     { code: 'AA', num: 4077, dep: '13:50', dur: 112, ac: 'CRJ-900',          fare: 149 },
     { code: 'AA', num: 3562, dep: '17:40', dur: 110, ac: 'Embraer E175',     fare: 159 },
   ],
   'CLT-CAK': [
-    { code: 'AA', num: 5176, dep: '08:55', dur: 105, ac: 'CRJ-900',          fare: 129 },
+    { code: 'AA', num: 5182, dep: '08:55', dur: 105, ac: 'CRJ-900',          fare: 129 },
     { code: 'AA', num: 3842, dep: '12:00', dur: 107, ac: 'Embraer E175',     fare: 139 },
     { code: 'AA', num: 4078, dep: '16:20', dur: 108, ac: 'CRJ-900',          fare: 149 },
     { code: 'AA', num: 3563, dep: '20:10', dur: 105, ac: 'Embraer E175',     fare: 159 },
@@ -716,11 +720,17 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'UA', num: 4699, dep: '12:45', dur: 395, ac: 'Embraer E175',     fare: 179, stops: 1, via: 'ORD' },
   ],
   'CAK-SFO': [
+    // Sat Nov 7–style: AA 5175 CAK 6:26a→ORD 7:21a, 2h24m sit, AA 3049 ORD 9:45a→SFO 12:41p
+    // Door-to-door 9h15m (local times; ET→PT). Shown as AA 5175 Basic Economy.
+    { code: 'AA', num: 5175, dep: '06:26', dur: 555, ac: 'CRJ-700 / Boeing 737-800', fare: 189, stops: 1, via: 'ORD', days:[6] },
     { code: 'UA', num: 5213, dep: '06:40', dur: 430, ac: 'Embraer E175',     fare: 199, stops: 1, via: 'ORD' },
     { code: 'UA', num: 5584, dep: '13:15', dur: 455, ac: 'CRJ-550',          fare: 209, stops: 1, via: 'ORD' },
     { code: 'AA', num: 2351, dep: '07:10', dur: 470, ac: 'CRJ-900',          fare: 215, stops: 1, via: 'CLT' },
   ],
   'SFO-CAK': [
+    // Tue Nov 10–style: AA 1253 SFO 10:34a→ORD 5:05p, 1h40m sit, AA 5242 ORD 6:45p→CAK 9:25p
+    // Door-to-door 7h51m (local times; PT→ET). Shown as AA 1253 Basic Economy.
+    { code: 'AA', num: 1253, dep: '10:34', dur: 471, ac: 'Boeing 737-800 / CRJ-700', fare: 189, stops: 1, via: 'ORD', days:[2] },
     { code: 'UA', num: 5214, dep: '08:55', dur: 400, ac: 'Embraer E175',     fare: 199, stops: 1, via: 'ORD' },
     { code: 'UA', num: 5585, dep: '15:40', dur: 420, ac: 'CRJ-550',          fare: 209, stops: 1, via: 'ORD' },
     { code: 'AA', num: 2352, dep: '10:20', dur: 440, ac: 'CRJ-900',          fare: 215, stops: 1, via: 'CLT' },
