@@ -200,6 +200,7 @@ export const AIRPORTS: Airport[] = [
   // ── Midwest ──
   { code: 'PIT', city: 'Pittsburgh',         name: 'Pittsburgh International',                 country: 'US', lat: 40.4914,  lon: -80.2329  },
   { code: 'CLE', city: 'Cleveland',          name: 'Cleveland Hopkins International',          country: 'US', lat: 41.4117,  lon: -81.8498  },
+  { code: 'CAK', city: 'Akron',              name: 'Akron-Canton Airport',                     country: 'US', lat: 40.9161,  lon: -81.4422  },
   { code: 'CMH', city: 'Columbus',           name: 'John Glenn Columbus International',        country: 'US', lat: 39.9980,  lon: -82.8919  },
   { code: 'IND', city: 'Indianapolis',       name: 'Indianapolis International',               country: 'US', lat: 39.7173,  lon: -86.2944  },
   { code: 'MKE', city: 'Milwaukee',          name: 'General Mitchell International',           country: 'US', lat: 42.9472,  lon: -87.8966  },
@@ -301,9 +302,9 @@ export const AIRPORT_TZ: Record<string, string> = {
   PVD:'America/New_York', MHT:'America/New_York', BUF:'America/New_York',
   ROC:'America/New_York', ALB:'America/New_York', SYR:'America/New_York',
   BTV:'America/New_York', PWM:'America/New_York', BGR:'America/New_York',
-  PIT:'America/New_York', CLE:'America/New_York', CMH:'America/New_York',
-  IND:'America/New_York', JAX:'America/New_York', RDU:'America/New_York',
-  GRR:'America/New_York', SBN:'America/New_York',
+  PIT:'America/New_York', CLE:'America/New_York', CAK:'America/New_York',
+  CMH:'America/New_York', IND:'America/New_York', JAX:'America/New_York',
+  RDU:'America/New_York', GRR:'America/New_York', SBN:'America/New_York',
   // Hawaii (UTC-10, no DST)
   HNL:'Pacific/Honolulu', OGG:'Pacific/Honolulu', KOA:'Pacific/Honolulu',
   LIH:'Pacific/Honolulu', ITO:'Pacific/Honolulu',

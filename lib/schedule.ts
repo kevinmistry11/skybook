@@ -636,6 +636,95 @@ const S: Record<string, ScheduledFlight[]> = {
     // 5:10p ET -> 7:27p PT same day
     { code: 'UA', num: 234,  dep: '17:10', dur: 317, ac: 'Boeing 737 MAX 8', fare: 207 },
   ],
+
+  // ── Akron-Canton (CAK) — popular nonstops + connecting long-hauls ─────────
+  // Real CAK service is primarily AA (CLT/ORD/DCA), UA (ORD), plus leisure LCCs.
+  'CAK-ORD': [
+    { code: 'AA', num: 3545, dep: '07:14', dur: 110, ac: 'Embraer E175',     fare: 119 },
+    { code: 'AA', num: 3915, dep: '11:30', dur: 112, ac: 'Embraer E175',     fare: 129 },
+    { code: 'AA', num: 3436, dep: '16:45', dur: 110, ac: 'CRJ-700',          fare: 139 },
+    { code: 'UA', num: 4646, dep: '06:55', dur: 115, ac: 'Embraer E175',     fare: 125 },
+    { code: 'UA', num: 4752, dep: '13:20', dur: 113, ac: 'CRJ-550',          fare: 135 },
+  ],
+  'ORD-CAK': [
+    { code: 'AA', num: 3546, dep: '09:40', dur: 105, ac: 'Embraer E175',     fare: 119 },
+    { code: 'AA', num: 3916, dep: '14:05', dur: 107, ac: 'Embraer E175',     fare: 129 },
+    { code: 'AA', num: 3437, dep: '19:15', dur: 105, ac: 'CRJ-700',          fare: 139 },
+    { code: 'UA', num: 4647, dep: '09:25', dur: 108, ac: 'Embraer E175',     fare: 125 },
+    { code: 'UA', num: 4753, dep: '16:00', dur: 110, ac: 'CRJ-550',          fare: 135 },
+  ],
+  'CAK-CLT': [
+    { code: 'AA', num: 5175, dep: '06:35', dur: 110, ac: 'CRJ-900',          fare: 129 },
+    { code: 'AA', num: 3841, dep: '09:14', dur: 108, ac: 'Embraer E175',     fare: 139 },
+    { code: 'AA', num: 4077, dep: '13:50', dur: 112, ac: 'CRJ-900',          fare: 149 },
+    { code: 'AA', num: 3562, dep: '17:40', dur: 110, ac: 'Embraer E175',     fare: 159 },
+  ],
+  'CLT-CAK': [
+    { code: 'AA', num: 5176, dep: '08:55', dur: 105, ac: 'CRJ-900',          fare: 129 },
+    { code: 'AA', num: 3842, dep: '12:00', dur: 107, ac: 'Embraer E175',     fare: 139 },
+    { code: 'AA', num: 4078, dep: '16:20', dur: 108, ac: 'CRJ-900',          fare: 149 },
+    { code: 'AA', num: 3563, dep: '20:10', dur: 105, ac: 'Embraer E175',     fare: 159 },
+  ],
+  'CAK-DCA': [
+    { code: 'AA', num: 5155, dep: '07:05', dur: 85,  ac: 'CRJ-700',          fare: 109 },
+    { code: 'AA', num: 3895, dep: '12:25', dur: 88,  ac: 'Embraer E175',     fare: 119 },
+    { code: 'AA', num: 3725, dep: '18:10', dur: 85,  ac: 'CRJ-700',          fare: 129 },
+  ],
+  'DCA-CAK': [
+    { code: 'AA', num: 5156, dep: '09:20', dur: 82,  ac: 'CRJ-700',          fare: 109 },
+    { code: 'AA', num: 3896, dep: '14:40', dur: 85,  ac: 'Embraer E175',     fare: 119 },
+    { code: 'AA', num: 3726, dep: '20:25', dur: 82,  ac: 'CRJ-700',          fare: 129 },
+  ],
+  'CAK-MCO': [
+    { code: 'F9', num: 2405, dep: '06:00', dur: 145, ac: 'Airbus A320neo',   fare: 79,  days:[0,2,4,5,6] },
+    { code: 'F9', num: 2411, dep: '11:20', dur: 148, ac: 'Airbus A320',      fare: 89,  days:[1,3,5,6] },
+    { code: 'AA', num: 2281, dep: '07:30', dur: 255, ac: 'CRJ-900',          fare: 149, stops: 1, via: 'CLT' },
+    { code: 'AA', num: 2293, dep: '14:10', dur: 270, ac: 'Embraer E175',     fare: 159, stops: 1, via: 'CLT' },
+  ],
+  'MCO-CAK': [
+    { code: 'F9', num: 2406, dep: '09:30', dur: 150, ac: 'Airbus A320neo',   fare: 79,  days:[0,2,4,5,6] },
+    { code: 'F9', num: 2412, dep: '15:00', dur: 152, ac: 'Airbus A320',      fare: 89,  days:[1,3,5,6] },
+    { code: 'AA', num: 2282, dep: '11:00', dur: 260, ac: 'CRJ-900',          fare: 149, stops: 1, via: 'CLT' },
+    { code: 'AA', num: 2294, dep: '17:45', dur: 275, ac: 'Embraer E175',     fare: 159, stops: 1, via: 'CLT' },
+  ],
+  'CAK-FLL': [
+    { code: 'F9', num: 2421, dep: '07:25', dur: 165, ac: 'Airbus A320neo',   fare: 89,  days:[0,3,5,6] },
+    { code: 'F9', num: 2427, dep: '13:40', dur: 168, ac: 'Airbus A320',      fare: 99,  days:[1,4,6] },
+    { code: 'AA', num: 2311, dep: '08:15', dur: 285, ac: 'CRJ-900',          fare: 169, stops: 1, via: 'CLT' },
+  ],
+  'FLL-CAK': [
+    { code: 'F9', num: 2422, dep: '11:00', dur: 170, ac: 'Airbus A320neo',   fare: 89,  days:[0,3,5,6] },
+    { code: 'F9', num: 2428, dep: '17:20', dur: 172, ac: 'Airbus A320',      fare: 99,  days:[1,4,6] },
+    { code: 'AA', num: 2312, dep: '12:30', dur: 290, ac: 'CRJ-900',          fare: 169, stops: 1, via: 'CLT' },
+  ],
+  'CAK-TPA': [
+    { code: 'F9', num: 2435, dep: '08:05', dur: 150, ac: 'Airbus A320neo',   fare: 85,  days:[0,2,4,6] },
+    { code: 'AA', num: 2325, dep: '09:40', dur: 265, ac: 'Embraer E175',     fare: 155, stops: 1, via: 'CLT' },
+  ],
+  'TPA-CAK': [
+    { code: 'F9', num: 2436, dep: '11:45', dur: 155, ac: 'Airbus A320neo',   fare: 85,  days:[0,2,4,6] },
+    { code: 'AA', num: 2326, dep: '14:00', dur: 270, ac: 'Embraer E175',     fare: 155, stops: 1, via: 'CLT' },
+  ],
+  'CAK-LAS': [
+    { code: 'F9', num: 2441, dep: '08:33', dur: 265, ac: 'Airbus A320neo',   fare: 129, days:[1,3,6] },
+    { code: 'AA', num: 2337, dep: '06:50', dur: 420, ac: 'CRJ-900',          fare: 189, stops: 1, via: 'CLT' },
+    { code: 'UA', num: 4698, dep: '07:20', dur: 405, ac: 'Embraer E175',     fare: 179, stops: 1, via: 'ORD' },
+  ],
+  'LAS-CAK': [
+    { code: 'F9', num: 2442, dep: '14:10', dur: 250, ac: 'Airbus A320neo',   fare: 129, days:[1,3,6] },
+    { code: 'AA', num: 2338, dep: '11:30', dur: 410, ac: 'CRJ-900',          fare: 189, stops: 1, via: 'CLT' },
+    { code: 'UA', num: 4699, dep: '12:45', dur: 395, ac: 'Embraer E175',     fare: 179, stops: 1, via: 'ORD' },
+  ],
+  'CAK-SFO': [
+    { code: 'UA', num: 5213, dep: '06:40', dur: 430, ac: 'Embraer E175',     fare: 199, stops: 1, via: 'ORD' },
+    { code: 'UA', num: 5584, dep: '13:15', dur: 455, ac: 'CRJ-550',          fare: 209, stops: 1, via: 'ORD' },
+    { code: 'AA', num: 2351, dep: '07:10', dur: 470, ac: 'CRJ-900',          fare: 215, stops: 1, via: 'CLT' },
+  ],
+  'SFO-CAK': [
+    { code: 'UA', num: 5214, dep: '08:55', dur: 400, ac: 'Embraer E175',     fare: 199, stops: 1, via: 'ORD' },
+    { code: 'UA', num: 5585, dep: '15:40', dur: 420, ac: 'CRJ-550',          fare: 209, stops: 1, via: 'ORD' },
+    { code: 'AA', num: 2352, dep: '10:20', dur: 440, ac: 'CRJ-900',          fare: 215, stops: 1, via: 'CLT' },
+  ],
 }
 
 // Price factor by how many days out the flight is

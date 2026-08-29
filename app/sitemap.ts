@@ -28,6 +28,8 @@ const POPULAR_PAIRS: [string, string][] = [
   ['LAS','PHX'],['LAS','DFW'],['LAS','ATL'],
   ['MCO','BOS'],['MCO','ORD'],['MCO','DFW'],
   ['CLE','SFO'],['CLE','JFK'],['CLE','LAX'],['CLE','ORD'],
+  ['CAK','ORD'],['CAK','CLT'],['CAK','DCA'],['CAK','MCO'],
+  ['CAK','FLL'],['CAK','TPA'],['CAK','LAS'],['CAK','SFO'],
 ]
 
 function routeUrls(): MetadataRoute.Sitemap {
