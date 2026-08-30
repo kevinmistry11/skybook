@@ -19,7 +19,7 @@ import {
   generatePNR,
 } from '@/lib/data'
 import { getPendingBooking, addBooking } from '@/lib/store'
-import { checkoutTargetForRoute, computeCheckoutTotals, isCakSfoTrip } from '@/lib/pricing'
+import { checkoutTargetForLegs, computeCheckoutTotals } from '@/lib/pricing'
 
 export default function BookingFlow({ flightId }: { flightId: string }) {
   const router = useRouter()
@@ -89,9 +89,11 @@ export default function BookingFlow({ flightId }: { flightId: string }) {
 
   // Use the same tax-inclusive leg prices shown on search so totals match
   const priceSeed = displayLegs.map(f => f.id).join('|')
-  const routeTarget = isCakSfoTrip(displayLegs)
-    ? checkoutTargetForRoute('CAK', 'SFO')
-    : checkoutTargetForRoute(flight.origin.code, flight.destination.code)
+  const routeTarget = checkoutTargetForLegs(
+    displayLegs,
+    flight.origin.code,
+    flight.destination.code,
+  )
   const rawLegPrices = displayLegs.map(f => getPriceForClass(f, cabinClass))
   const listedTotalPerAdult = Math.round(rawLegPrices.reduce((s, p) => s + p, 0) * 100) / 100
   const { baseFare, taxes, totalPrice } = computeCheckoutTotals({

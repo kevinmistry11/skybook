@@ -12,6 +12,8 @@ export const TAX_RATE = 0.14
 const ROUTE_CHECKOUT_TOTAL: Record<string, number> = {
   'CAK-SFO': 225,
   'SFO-CAK': 225,
+  'CAK-SJC': 270,
+  'SJC-CAK': 270,
 }
 
 /** Resolve the tax-inclusive economy target for a city pair (or default). */
@@ -23,15 +25,31 @@ export function checkoutTargetForRoute(origin?: string, destination?: string): n
   return TARGET_CHECKOUT_TOTAL
 }
 
-/** True when the trip (any leg) is a CAK↔SFO itinerary. */
+/** True when the trip (any leg) is a pinned CAK itinerary (SFO / SJC). */
 export function isCakSfoTrip(
   legs: { origin: { code: string }; destination: { code: string } }[],
 ): boolean {
   return legs.some(l => {
     const a = l.origin.code
     const b = l.destination.code
-    return (a === 'CAK' && b === 'SFO') || (a === 'SFO' && b === 'CAK')
+    return (
+      (a === 'CAK' && (b === 'SFO' || b === 'SJC')) ||
+      ((a === 'SFO' || a === 'SJC') && b === 'CAK')
+    )
   })
+}
+
+/** Tax-inclusive target for a trip, honoring per-route pins (CAK↔SFO, CAK↔SJC). */
+export function checkoutTargetForLegs(
+  legs: { origin: { code: string }; destination: { code: string } }[],
+  fallbackOrigin?: string,
+  fallbackDest?: string,
+): number {
+  for (const l of legs) {
+    const hit = ROUTE_CHECKOUT_TOTAL[`${l.origin.code}-${l.destination.code}`]
+    if (hit != null) return hit
+  }
+  return checkoutTargetForRoute(fallbackOrigin, fallbackDest)
 }
 
 /** ± dollar band around the target for per-itinerary variance. */
@@ -142,7 +160,7 @@ export interface PricedCabin {
  * Search cards and checkout then show the same number (Kayak-style).
  *
  * Featured itineraries are pinned near the exact share of `targetTotal`
- * (e.g. CAK↔SFO RT ≈ $225) so they don't drift with ranking noise.
+ * (e.g. CAK↔SFO RT ≈ $225, CAK↔SJC RT ≈ $270) so they don't drift with ranking noise.
  */
 export function normalizeFlightEconomyPrices<T extends {
   id: string

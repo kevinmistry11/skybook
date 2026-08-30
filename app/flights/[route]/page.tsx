@@ -26,6 +26,7 @@ const POPULAR_PAIRS: [string, string][] = [
   ['SEA','LAS'],['SEA','PHX'],['SEA','DEN'],
   ['LAS','PHX'],['LAS','DFW'],['LAS','ATL'],
   ['MCO','BOS'],['MCO','ORD'],['MCO','DFW'],
+  ['CAK','SFO'],['CAK','SJC'],['CAK','ORD'],
 ]
 
 export function generateStaticParams() {

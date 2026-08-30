@@ -59,7 +59,12 @@ const FAQ_SCHEMA = {
   ]
 }
 
-const DEALS = [
+const DEALS: {
+  from: string; to: string; fromCity: string; toCity: string
+  price: number; was: number; tags: string[]; color: string
+  daysOut?: number; date?: string; returnDate?: string
+}[] = [
+  { from: 'CAK', to: 'SJC', fromCity: 'Akron',          toCity: 'San Jose',     price: 270, was: 429, tags: ['United via ORD'],    color: 'from-blue-600 to-sky-500',     date: '2026-11-07', returnDate: '2026-11-10' },
   { from: 'JFK', to: 'LAX', fromCity: 'New York',      toCity: 'Los Angeles',  price: 178, was: 329, tags: ['Nonstop available'], color: 'from-violet-500 to-purple-600', daysOut: 21 },
   { from: 'ORD', to: 'MIA', fromCity: 'Chicago',       toCity: 'Miami',        price: 138, was: 259, tags: ['Best seller'],        color: 'from-rose-500 to-pink-600',    daysOut: 18 },
   { from: 'LAX', to: 'BOS', fromCity: 'Los Angeles',   toCity: 'Boston',       price: 189, was: 349, tags: ['Nonstop available'], color: 'from-sky-500 to-blue-600',     daysOut: 30 },
@@ -140,10 +145,12 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {DEALS.map(deal => {
             const pct = Math.round((1 - deal.price / deal.was) * 100)
+            const outDate = deal.date ?? dealDate(deal.daysOut ?? 21)
+            const retQs = deal.returnDate ? `&returnDate=${deal.returnDate}` : ''
             return (
               <Link
                 key={`${deal.from}-${deal.to}`}
-                href={`/search?from=${deal.from}&to=${deal.to}&date=${dealDate(deal.daysOut)}&passengers=1&cabinClass=economy&tripType=roundTrip`}
+                href={`/search?from=${deal.from}&to=${deal.to}&date=${outDate}${retQs}&passengers=1&cabinClass=economy&tripType=roundTrip`}
                 className="group bg-white rounded-2xl border border-gray-100 hover:border-transparent hover:shadow-xl transition-all overflow-hidden"
               >
                 {/* Gradient header */}

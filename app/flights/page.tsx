@@ -16,6 +16,7 @@ const FEATURED: [string, string, number][] = [
   ['SFO','SEA',89],['JFK','BOS',79],['LAX','LAS',59],['ORD','MIA',138],
   ['JFK','LAS',149],['ATL','ORD',109],['BNA','LAX',149],['DEN','LAX',119],
   ['SFO','DEN',119],['LAX','PHX',69],['EWR','LAX',169],['LGA','ATL',119],
+  ['CAK','SJC',270],
 ]
 
 function haversineKm(a: Airport, b: Airport): number {

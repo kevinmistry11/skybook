@@ -566,6 +566,12 @@ const BASIC_ECONOMY_FLIGHTS = new Set([
   'AA 5175 / AA 3049',                 // CAK→SFO via ORD
   'AA 1253 / AA 5242',                 // SFO→CAK via ORD
   'AA 5175', 'AA 3049', 'AA 1253', 'AA 5242',
+  'UA 4646 / UA 1540',                 // CAK→SJC via ORD
+  'UA 1239 / UA 5358',                 // SJC→CAK via ORD
+  'UA 4752 / UA 2156',
+  'UA 2157 / UA 4753',
+  'UA 4646', 'UA 1540', 'UA 1239', 'UA 5358',
+  'UA 4752', 'UA 2156', 'UA 2157', 'UA 4753',
 ])
 
 export function fareName(

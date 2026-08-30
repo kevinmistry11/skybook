@@ -653,7 +653,7 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'AA', num: 3545, dep: '07:14', dur: 110, ac: 'Embraer E175',     fare: 119 },
     { code: 'AA', num: 3915, dep: '11:30', dur: 112, ac: 'Embraer E175',     fare: 129 },
     { code: 'AA', num: 3436, dep: '16:45', dur: 110, ac: 'CRJ-700',          fare: 139 },
-    { code: 'UA', num: 4646, dep: '06:55', dur: 115, ac: 'Embraer E175',     fare: 125 },
+    { code: 'UA', num: 4646, dep: '07:04', dur: 116, ac: 'Embraer E175',     fare: 125 },
     { code: 'UA', num: 4752, dep: '13:20', dur: 113, ac: 'CRJ-550',          fare: 135 },
   ],
   'ORD-CAK': [
@@ -663,6 +663,7 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'AA', num: 3916, dep: '14:05', dur: 107, ac: 'Embraer E175',     fare: 129 },
     { code: 'AA', num: 3437, dep: '19:15', dur: 105, ac: 'CRJ-700',          fare: 139 },
     { code: 'UA', num: 4647, dep: '09:25', dur: 108, ac: 'Embraer E175',     fare: 125 },
+    { code: 'UA', num: 5358, dep: '14:55', dur: 99,  ac: 'CRJ-550',          fare: 125 },
     { code: 'UA', num: 4753, dep: '16:00', dur: 110, ac: 'CRJ-550',          fare: 135 },
   ],
   'CAK-CLT': [
@@ -748,6 +749,40 @@ const S: Record<string, ScheduledFlight[]> = {
     { code: 'UA', num: 5214, dep: '08:55', dur: 400, ac: 'Embraer E175',     fare: 115, stops: 1, via: 'ORD' },
     { code: 'UA', num: 5585, dep: '15:40', dur: 420, ac: 'CRJ-550',          fare: 118, stops: 1, via: 'ORD' },
     { code: 'AA', num: 2352, dep: '10:20', dur: 440, ac: 'CRJ-900',          fare: 120, stops: 1, via: 'CLT' },
+  ],
+  'CAK-SJC': [
+    // Sat Nov 7: UA 4646 CAK 7:04a ET→ORD 8:00a CT (1h56), 1h2m layover,
+    //            UA 1540 ORD 9:02a CT→SJC 12:02p PT (5h). Door-to-door 7h58m.
+    { code: 'UA', num: 4646, label: 'UA 4646 / UA 1540', dep: '07:04', dur: 478,
+      ac: 'Embraer E175 / Boeing 737-800', fare: 132, stops: 1, via: 'ORD', days:[6],
+      featured: true, layoverMin: 62,
+      connectionDetail: 'UA 4646 CAK 7:04a→ORD 8:00a (1h 56m) · 1h 2m layover in ORD · UA 1540 ORD 9:02a→SJC 12:02p (5h 0m)' },
+    { code: 'AA', num: 3545, label: 'AA 3545 / AA 2619', dep: '07:14', dur: 506,
+      ac: 'Embraer E175 / Boeing 737-800', fare: 128, stops: 1, via: 'ORD',
+      layoverMin: 101,
+      connectionDetail: 'AA 3545 CAK 7:14a→ORD 8:04a (1h 50m) · 1h 41m layover in ORD · AA 2619 ORD 9:45a→SJC 12:40p (4h 55m)' },
+    { code: 'UA', num: 4752, label: 'UA 4752 / UA 2156', dep: '13:20', dur: 480,
+      ac: 'CRJ-550 / Boeing 737-800', fare: 130, stops: 1, via: 'ORD',
+      layoverMin: 77,
+      connectionDetail: 'UA 4752 CAK 1:20p→ORD 2:13p (1h 53m) · 1h 17m layover in ORD · UA 2156 ORD 3:30p→SJC 6:20p (4h 50m)' },
+    { code: 'AA', num: 2351, dep: '07:10', dur: 515, ac: 'CRJ-900',          fare: 134, stops: 1, via: 'CLT' },
+  ],
+  'SJC-CAK': [
+    // Tue Nov 10: UA 1239 SJC 6:30a PT→ORD 12:54p CT (4h24), 2h1m layover,
+    //             UA 5358 ORD 2:55p CT→CAK 5:34p ET (1h39). Door-to-door 8h4m.
+    { code: 'UA', num: 1239, label: 'UA 1239 / UA 5358', dep: '06:30', dur: 484,
+      ac: 'Boeing 737-800 / CRJ-550', fare: 132, stops: 1, via: 'ORD', days:[2],
+      featured: true, layoverMin: 121,
+      connectionDetail: 'UA 1239 SJC 6:30a→ORD 12:54p (4h 24m) · 2h 1m layover in ORD · UA 5358 ORD 2:55p→CAK 5:34p (1h 39m)' },
+    { code: 'UA', num: 2157, label: 'UA 2157 / UA 4753', dep: '08:55', dur: 415,
+      ac: 'Boeing 737-800 / CRJ-550', fare: 128, stops: 1, via: 'ORD',
+      layoverMin: 55,
+      connectionDetail: 'UA 2157 SJC 8:55a→ORD 3:05p (4h 10m) · 55m layover in ORD · UA 4753 ORD 4:00p→CAK 6:50p (1h 50m)' },
+    { code: 'AA', num: 2620, label: 'AA 2620 / AA 3437', dep: '10:20', dur: 445,
+      ac: 'Boeing 737-800 / CRJ-700', fare: 130, stops: 1, via: 'ORD',
+      layoverMin: 80,
+      connectionDetail: 'AA 2620 SJC 10:20a→ORD 4:15p (3h 55m) · 1h 20m layover in ORD · AA 3437 ORD 5:35p→CAK 8:20p (1h 45m)' },
+    { code: 'AA', num: 2352, dep: '10:20', dur: 450, ac: 'CRJ-900',          fare: 134, stops: 1, via: 'CLT' },
   ],
 }
 
