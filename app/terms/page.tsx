@@ -13,7 +13,7 @@ export default function TermsPage() {
         <div className="mb-10">
           <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-3">Legal</p>
           <h1 className="text-4xl font-black text-gray-900 mb-2">Terms of Use</h1>
-          <p className="text-gray-500 text-sm">Last updated: January 15, 2026 · Effective: February 1, 2026</p>
+          <p className="text-gray-500 text-sm">Last updated: August 31, 2026 · Effective: August 31, 2026</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
@@ -32,19 +32,19 @@ export default function TermsPage() {
             },
             {
               title: '2. Nature of the Service',
-              body: 'SkyBookFare is a flight search and booking platform. We display fare information sourced from airlines and GDS (Global Distribution System) providers. While we strive for accuracy, fare availability and pricing are ultimately controlled by airlines and may change at any moment. SkyBookFare is not an airline and does not operate any aircraft.',
+              body: 'SkyBookFare is a flight search site. We display fare information to help you compare trips. While we strive for accuracy, fare availability and pricing are ultimately controlled by airlines and booking partners and may change at any moment. SkyBookFare is not an airline, is not a ticket issuer, and does not operate any aircraft.',
             },
             {
               title: '3. Bookings and Payments',
-              body: 'When you complete a booking through SkyBookFare, you are entering into a direct contract with the airline for transportation services. Payment is processed at the time of booking. SkyBookFare charges no booking fees — the price displayed is the full price. All prices are in US dollars and include applicable taxes and carrier-imposed fees.',
+              body: 'SkyBookFare does not process payments or issue tickets. When you select a flight, you are taken to Kayak (or another booking partner) to complete the purchase. Any contract of carriage is between you and the airline; payment is processed by Kayak or the airline, not by SkyBookFare. Prices shown on SkyBookFare are estimates for comparison and may differ on the partner site. SkyBookFare does not add its own booking fee.',
             },
             {
               title: '4. Fare Rules and Cancellations',
-              body: 'Each ticket is subject to the fare rules of the airline and fare class selected. Most economy fares sold through SkyBookFare are non-refundable. Changes are permitted subject to airline change fees (typically $75–$200 depending on cabin class) plus any fare difference. SkyBookFare has no ability to waive airline fare rules on your behalf.',
+              body: 'Each ticket is subject to the fare rules of the airline and the booking partner that issued it. Cancellations, changes, refunds, and check-in are handled by that airline or partner — not by SkyBookFare. SkyBookFare has no ability to waive airline fare rules on your behalf.',
             },
             {
               title: '5. Accuracy of Information',
-              body: 'You are responsible for reviewing all booking details before payment, including: passenger names (must match government-issued ID), travel dates, flight times, cabin class, and number of bags. SkyBookFare is not liable for costs arising from errors in information you provide.',
+              body: 'You are responsible for reviewing all trip details on the booking partner site before you pay, including passenger names (must match government-issued ID), travel dates, flight times, cabin class, and number of bags. SkyBookFare is not liable for costs arising from errors in information you provide or from fares that change after you leave this site.',
             },
             {
               title: '6. Prohibited Uses',

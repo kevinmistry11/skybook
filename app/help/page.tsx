@@ -8,25 +8,25 @@ const FAQS = [
     id: 'cancellation',
     category: 'Cancellations & Refunds',
     q: 'How do I cancel my booking?',
-    a: 'Log in to your account and go to "My Trips." Select the booking you want to cancel and click "Cancel Booking." Cancellation is subject to the fare rules of your ticket. Most economy fares on SkyBookFare are non-refundable, but may be eligible for a travel credit minus the change fee.',
+    a: 'SkyBookFare does not issue tickets. Cancel through Kayak or the airline that issued your ticket, using the confirmation they sent you. Cancellation is subject to that provider\'s fare rules.',
   },
   {
     id: 'refund',
     category: 'Cancellations & Refunds',
     q: 'When will I receive my refund?',
-    a: 'If your fare is eligible for a refund, it is typically processed within 7–10 business days back to your original payment method. Travel credits are applied to your SkyBookFare account immediately. Note that most economy fares are non-refundable — check your fare rules at checkout.',
+    a: 'Refunds are handled by Kayak or the airline that charged your card — not by SkyBookFare. Timing and eligibility follow their fare rules and payment policies.',
   },
   {
     id: 'change',
     category: 'Changes',
     q: 'Can I change my flight date or time?',
-    a: 'Yes, changes are permitted subject to your fare rules. Economy fares include a $200 change fee. Business class changes are $150. First class changes are $75. Any fare difference also applies. To change a booking, visit "My Trips" in your account, or call 1-800-759-2665.',
+    a: 'Changes are handled by the airline or Kayak according to the fare rules on your ticket. Use the booking reference from your Kayak or airline confirmation. SkyBookFare cannot change or reissue tickets.',
   },
   {
     id: 'seat',
     category: 'Seats & Upgrades',
     q: 'Can I choose my seat?',
-    a: 'Yes. Seat selection is available during booking (Step 2: Seat Selection). Standard middle seats are free. Aisle seats are $12, window seats are $15, and extra-legroom seats in the first few rows of economy are $25. Business and first class seats are included in your cabin upgrade price.',
+    a: 'Seat selection is offered by Kayak or the airline during their checkout, not on SkyBookFare. Availability and prices depend on the carrier and fare.',
   },
   {
     id: 'baggage-faq',
@@ -37,20 +37,20 @@ const FAQS = [
   {
     id: 'payment',
     category: 'Payment',
-    q: 'What payment methods does SkyBookFare accept?',
-    a: 'We accept all major credit and debit cards (Visa, Mastercard, American Express, Discover), as well as Apple Pay and Google Pay on supported browsers. All transactions are secured with TLS 1.3 encryption and our payment infrastructure is PCI DSS Level 1 certified.',
+    q: 'Does SkyBookFare take payment?',
+    a: 'SkyBookFare does not process payments and is not PCI DSS certified. When you select a flight, you continue to Kayak to pay. Payment methods are those Kayak or the airline offer.',
   },
   {
     id: 'confirmation',
     category: 'Booking',
     q: 'Where is my booking confirmation?',
-    a: 'Your e-ticket and PNR (booking reference) are sent to the email address provided at checkout within minutes of completing your booking. If you don\'t see it, check your spam folder or visit "My Trips" in your account.',
+    a: 'Your e-ticket and booking reference come from Kayak or the airline after you complete the purchase there — not from SkyBookFare. Check the email you used on Kayak, including spam.',
   },
   {
     id: 'checkin',
     category: 'Booking',
     q: 'How do I check in for my flight?',
-    a: 'Check-in is done directly with the airline, not through SkyBookFare. Most airlines open online check-in 24 hours before departure. You can use your PNR (booking reference code) found in your confirmation email to check in on the airline\'s website or app.',
+    a: 'Check-in is done directly with the airline, not through SkyBookFare. Most airlines open online check-in 24 hours before departure. Use the PNR from your Kayak or airline confirmation on the airline\'s website or app.',
   },
 ]
 

@@ -79,32 +79,6 @@ export interface SearchParams {
   legs?: MultiCityLeg[]
 }
 
-export interface PendingBooking {
-  id: string
-  outboundFlight: Flight
-  returnFlight?: Flight
-  multiCityFlights?: Flight[]
-  searchParams: SearchParams
-}
-
-export interface CompletedBooking {
-  id: string
-  pnr: string
-  outboundFlight: Flight
-  returnFlight?: Flight
-  passengers: Passenger[]
-  selectedSeats: string[]
-  addOns: AddOn[]
-  cabinClass: 'economy' | 'business' | 'first'
-  passengersCount: number
-  baseFare: number
-  addOnsCost: number
-  taxes: number
-  totalPrice: number
-  contactEmail: string
-  createdAt: string
-}
-
 export const AIRPORTS: Airport[] = [
   // ── Major US Hubs ──
   { code: 'ATL', city: 'Atlanta',            name: 'Hartsfield-Jackson Atlanta International', country: 'US', lat: 33.6407,  lon: -84.4277  },
@@ -671,9 +645,4 @@ export function generateSeatMap(flightId: string, cabinClass: 'economy' | 'busin
       }),
     }
   })
-}
-
-export function generatePNR(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-  return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
 }

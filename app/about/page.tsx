@@ -56,7 +56,7 @@ export default function AboutPage() {
             {[
               { step: '1', title: 'Enter your trip details', body: 'Choose your origin, destination, travel dates, cabin class, and number of passengers.' },
               { step: '2', title: 'Compare real fares', body: 'We pull live schedules from all major US airlines and show you the best available fares, side by side.' },
-              { step: '3', title: 'Book with confidence', body: 'Select your flight, pick your seat, and pay — taxes and fees included, no checkout surprises.' },
+              { step: '3', title: 'Continue on Kayak', body: 'Select a fare to open Kayak, where you complete the booking with the airline or provider. SkyBookFare does not process payments.' },
             ].map(s => (
               <div key={s.step} className="text-center">
                 <div className="w-12 h-12 bg-blue-600 text-white font-black text-lg rounded-full flex items-center justify-center mx-auto mb-4">{s.step}</div>
@@ -88,13 +88,13 @@ export default function AboutPage() {
       {/* Trust & Security */}
       <section className="bg-white border-y border-gray-100 py-16 px-4">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-black text-gray-900 mb-8 text-center">Security & Compliance</h2>
+          <h2 className="text-2xl font-black text-gray-900 mb-8 text-center">Security & Privacy</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
-              { title: 'PCI DSS Level 1', body: 'Our payment infrastructure meets the highest level of PCI Data Security Standard compliance, independently audited annually.' },
-              { title: 'TLS 1.3 Encryption', body: 'All data in transit is encrypted with TLS 1.3. Payment card data is tokenized and never stored on our servers.' },
-              { title: 'SOC 2 Type II', body: 'SkyBookFare holds a SOC 2 Type II attestation, certifying our security, availability, and confidentiality controls.' },
-              { title: 'IATA Affiliate Member', body: 'As an IATA affiliate, SkyBookFare adheres to industry standards for fair and transparent distribution of airfare.' },
+              { title: 'HTTPS in transit', body: 'The SkyBookFare site is served over HTTPS so search traffic between your browser and our servers is encrypted.' },
+              { title: 'No card data on SkyBookFare', body: 'SkyBookFare does not collect, store, or process payment card numbers. We are not a PCI DSS merchant and do not claim PCI or SOC 2 certification.' },
+              { title: 'Booking completes off-site', body: 'When you select a flight, you continue to Kayak to finish the purchase with Kayak or the airline. They handle payment and ticketing.' },
+              { title: 'We don\'t sell your data', body: 'We do not sell personal information. Search is meant to help you compare fares, not to build a payment or ticketing profile.' },
             ].map(t => (
               <div key={t.title} className="flex gap-4 p-5 rounded-xl border border-gray-100 bg-gray-50">
                 <div className="w-8 h-8 shrink-0 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-base">✓</div>

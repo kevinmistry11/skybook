@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         <div className="mb-10">
           <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-3">Legal</p>
           <h1 className="text-4xl font-black text-gray-900 mb-2">Privacy Policy</h1>
-          <p className="text-gray-500 text-sm">Last updated: January 15, 2026</p>
+          <p className="text-gray-500 text-sm">Last updated: August 31, 2026</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 prose prose-sm prose-gray max-w-none">
@@ -27,32 +27,32 @@ export default function PrivacyPage() {
           {[
             {
               title: '1. Information We Collect',
-              body: `We collect information you provide directly to us, such as your name, email address, phone number, payment
-              information, and travel preferences when you create an account or complete a booking. We also collect
-              technical information automatically, including your IP address, browser type, device identifiers, pages
-              visited, and referring URLs. This is collected via standard web server logs and first-party analytics.`,
+              body: `SkyBookFare is a flight search site. We do not collect payment card numbers, CVVs, or other payment
+              credentials, and we do not complete airline bookings on this site. We may collect information you type
+              into search or contact forms (for example trip details or an email address) and technical information
+              collected automatically, including your IP address, browser type, device identifiers, pages visited, and
+              referring URLs, via standard web server logs and first-party analytics.`,
             },
             {
               title: '2. How We Use Your Information',
-              body: `We use your information to: process and confirm flight bookings; send booking confirmations and e-tickets;
-              provide customer support; send transactional emails (booking receipts, itinerary updates); improve our
-              search algorithms and user experience; comply with legal obligations; and prevent fraud. We do not use
-              your data for third-party advertising, and we do not sell your personal information to any third party.`,
+              body: `We use this information to: run flight and hotel search; improve the product; respond to support
+              requests you send us; comply with legal obligations; and prevent abuse. We do not process payments, issue
+              tickets, or send e-tickets. We do not use your data for third-party advertising, and we do not sell your
+              personal information to any third party.`,
             },
             {
               title: '3. Information Sharing',
-              body: `We share your information with: airlines and their reservation systems to complete your booking (your
-              name, contact details, and payment data are transmitted directly to the airline via secure APIs);
-              payment processors (we use PCI DSS Level 1 certified processors; SkyBookFare never stores raw card data);
-              and service providers who help us operate the platform (hosting, email delivery, analytics) under strict
-              data processing agreements.`,
+              body: `When you select a flight, you leave SkyBookFare and continue on Kayak (or another booking partner) to
+              complete the purchase. That partner and the airline — not SkyBookFare — collect payment and passenger
+              details needed to ticket the trip. We also use service providers who help us operate the site (hosting,
+              analytics) under data processing agreements. We do not transmit payment data to airlines because we do
+              not collect it.`,
             },
             {
               title: '4. Data Security',
-              body: `We use industry-standard security measures including TLS 1.3 encryption for all data in transit,
-              AES-256 encryption at rest for sensitive fields, role-based access controls, and annual third-party
-              penetration testing. Our infrastructure holds SOC 2 Type II attestation. Despite these measures, no
-              system is perfectly secure — please use a strong, unique password for your account.`,
+              body: `The site is served over HTTPS so data in transit between your browser and our servers is encrypted.
+              SkyBookFare is not PCI DSS certified and does not hold a SOC 2 attestation. We do not store payment card
+              data. No system is perfectly secure — do not send card numbers to us by email or through this site.`,
             },
             {
               title: '5. Cookies and Tracking',
@@ -68,9 +68,9 @@ export default function PrivacyPage() {
             },
             {
               title: '7. Data Retention',
-              body: `We retain booking data for 7 years to comply with financial and tax regulations. Account data is
-              retained while your account is active and for 2 years after account deletion, unless a longer
-              retention period is required by law.`,
+              body: `Because we do not issue tickets, we do not retain airline booking records. Server logs and analytics
+              data are kept for a limited period needed to operate and secure the site, unless a longer retention
+              period is required by law. Support emails you send us are retained as needed to handle your request.`,
             },
             {
               title: '8. Children\'s Privacy',

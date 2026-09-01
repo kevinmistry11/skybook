@@ -24,7 +24,7 @@ const FAQ_SCHEMA = {
     {
       "@type": "Question",
       "name": "Does SkyBookFare charge booking fees?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. SkyBookFare charges zero booking fees. The price you see includes all taxes and carrier fees — nothing is added at checkout." }
+      "acceptedAnswer": { "@type": "Answer", "text": "No. SkyBookFare does not add a booking fee. Fares shown are for comparison; you complete the purchase on Kayak, where the airline or Kayak may charge their own taxes and fees." }
     },
     {
       "@type": "Question",
@@ -44,7 +44,7 @@ const FAQ_SCHEMA = {
     {
       "@type": "Question",
       "name": "Is SkyBookFare secure?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. SkyBookFare uses 256-bit SSL encryption, is PCI DSS Level 1 certified, and SOC 2 Type II attested. Your payment data is never stored on our servers." }
+      "acceptedAnswer": { "@type": "Answer", "text": "SkyBookFare is served over HTTPS. We do not collect payment card numbers and we are not PCI DSS or SOC 2 certified. When you select a flight, you continue to Kayak to complete the booking." }
     },
     {
       "@type": "Question",
@@ -117,9 +117,9 @@ export default function Home() {
           {/* Trust badges */}
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {[
-              { icon: '🔒', text: 'PCI DSS Level 1' },
+              { icon: '🔒', text: 'HTTPS encrypted' },
               { icon: '✅', text: 'No booking fees' },
-              { icon: '💳', text: 'SOC 2 Type II certified' },
+              { icon: '✈️', text: 'Book on Kayak' },
               { icon: '🌎', text: 'All major US airlines' },
             ].map(b => (
               <span key={b.text} className="flex items-center gap-1.5 bg-white/10 border border-white/20 text-white/80 text-xs font-medium px-3 py-1.5 rounded-full">
@@ -205,8 +205,8 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
             { gradient: 'from-violet-500 to-purple-600', icon: '💰', title: 'No Booking Fees', body: 'The price you see is the price you pay — taxes and carrier fees included. Always.' },
-            { gradient: 'from-sky-500 to-blue-600',     icon: '🔒', title: 'Secure & Private', body: 'PCI DSS Level 1 certified. TLS 1.3 encryption. SOC 2 Type II attested. Your data is never sold.' },
-            { gradient: 'from-emerald-500 to-teal-600', icon: '📱', title: 'Instant E-Ticket',  body: 'Your confirmation and e-ticket arrive instantly to your email. No printing needed.' },
+            { gradient: 'from-sky-500 to-blue-600',     icon: '🔒', title: 'Secure & Private', body: 'The site is served over HTTPS. SkyBookFare does not collect payment cards. Your data is never sold.' },
+            { gradient: 'from-emerald-500 to-teal-600', icon: '✈️', title: 'Complete on Kayak',  body: 'Select a flight here, then finish the booking on Kayak with the airline or provider.' },
           ].map(f => (
             <div key={f.title} className="bg-white rounded-2xl border border-gray-100 p-7 text-center shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${f.gradient} flex items-center justify-center text-3xl mx-auto mb-5 shadow-lg`}>
@@ -255,7 +255,7 @@ export default function Home() {
             {
               name: 'Priya S.',   city: 'New York, NY',
               stars: 5,
-              text: 'Seat selection and the whole booking flow was smooth and fast. Got my confirmation email immediately. Flying to SFO next week, can\'t wait!',
+              text: 'Comparing fares side by side saved me a lot of tab-switching. I picked a flight and finished the booking on Kayak in a couple of minutes.',
               initials: 'PS', color: 'from-violet-500 to-purple-600',
             },
             {
@@ -343,9 +343,9 @@ export default function Home() {
             </p>
             <p>
               Travelers use SkyBookFare to compare US domestic fares from American Airlines, Delta, United, Southwest,
-              JetBlue, Alaska, Frontier, and more — in one place. SkyBookFare shows transparent pricing up front and
-              does not add a separate booking fee at checkout. Search one-way, round-trip, or multi-city trips, pick
-              seats, and receive an e-ticket by email.
+              JetBlue, Alaska, Frontier, and more — in one place. SkyBookFare shows comparison prices up front and
+              does not add a separate booking fee. Search one-way, round-trip, or multi-city trips, then continue to
+              Kayak to complete the booking.
             </p>
             <p>
               To find the official site, search <strong className="text-gray-900">SkyBookFare</strong> or go directly to{' '}
