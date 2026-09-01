@@ -1,13 +1,12 @@
 'use client'
 
 import { useState, useMemo, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import {
   generateFlights, formatTime, formatDate, formatDuration, formatTZAbbr, formatPrice,
   getPriceForClass, fareName, AIRPORTS, AIRLINES, AIRPORT_TZ,
   type Flight, type MultiCityLeg,
 } from '@/lib/data'
-import { setPendingBooking } from '@/lib/store'
+import { buildKayakFlightsUrl, openKayakFlights } from '@/lib/flights-offsite'
 import { checkoutTargetForRoute, normalizeFlightEconomyPrices } from '@/lib/pricing'
 
 interface Props {
@@ -77,7 +76,6 @@ async function fetchFlights(
 // ── Main component ─────────────────────────────────────────────────────────
 
 export default function SearchResults({ from, to, date, returnDate, passengers, cabinClass, tripType, legs }: Props) {
-  const router = useRouter()
 
   const [outboundFlights,  setOutboundFlights]  = useState<Flight[]>([])
   const [returnFlights,    setReturnFlights]     = useState<Flight[]>([])
@@ -193,15 +191,16 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
     <div className="text-center py-20 text-gray-400">Select at least two cities above to find flights.</div>
   )
 
+  // Booking happens off-site on Kayak — no on-site checkout.
   function selectFlight(outbound: Flight, ret?: Flight) {
-    const id = crypto.randomUUID()
-    setPendingBooking({
-      id,
-      outboundFlight: outbound,
-      returnFlight: ret,
-      searchParams: { from, to, date, returnDate, passengers, cabinClass, tripType },
-    })
-    router.push(`/booking/${id}`)
+    openKayakFlights(
+      buildKayakFlightsUrl({
+        legs: [{ from: outbound.origin.code, to: outbound.destination.code, date }],
+        returnDate: ret ? returnDate : undefined,
+        passengers,
+        cabinClass,
+      }),
+    )
   }
 
   function selectMcFlight(flight: Flight) {
@@ -210,17 +209,17 @@ export default function SearchResults({ from, to, date, returnDate, passengers, 
       setMcSelected(newSelected)
       setMcCurrentLeg(mcCurrentLeg + 1)
     } else {
-      const id = crypto.randomUUID()
-      setPendingBooking({
-        id,
-        outboundFlight: newSelected[0],
-        multiCityFlights: newSelected,
-        searchParams: {
-          from: legs![0].from, to: legs![legs!.length - 1].to,
-          date: legs![0].date, passengers, cabinClass, tripType: 'multicity', legs,
-        },
-      })
-      router.push(`/booking/${id}`)
+      openKayakFlights(
+        buildKayakFlightsUrl({
+          legs: newSelected.map((f, i) => ({
+            from: f.origin.code,
+            to: f.destination.code,
+            date: legs?.[i]?.date ?? date,
+          })),
+          passengers,
+          cabinClass,
+        }),
+      )
     }
   }
 
